@@ -69,3 +69,4 @@ v3_compartilhado,2,pos_tenant_d,M3d,5.7,2026-11-16T13:40:41Z -> 2026-11-16T13:40
 v3_compartilhado,3,pos_tenant_d,M3d,6.0,2026-11-16T13:41:50Z -> 2026-11-16T13:41:55Z; 2 tentativas a cada 5 s
 v2_esquema,2,pos_tenant_d,M3d,301.1,2026-11-16T13:43:12Z -> 2026-11-16T13:48:13Z; 61 tentativas a cada 5 s
 v2_esquema,3,pos_tenant_d,M3d,295.8,2026-11-16T13:49:15Z -> 2026-11-16T13:54:10Z; 60 tentativas a cada 5 s
+v1_banco,2,pos_tenant_d,M3d,295.6,2026-11-16T13:55:28Z -> 2026-11-16T14:00:23Z; 60 tentativas a cada 5 s

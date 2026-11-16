@@ -1,0 +1,11 @@
+fct_pedidos: OK (esperadas 4000, encontradas 4000)
+  'tenant_a': esperadas 1000, encontradas 1000
+  'tenant_b': esperadas 1000, encontradas 1000
+  'tenant_c': esperadas 1000, encontradas 1000
+  'tenant_d': esperadas 1000, encontradas 1000
+dim_clientes: OK (esperadas 400, encontradas 400)
+  'tenant_a': esperadas 100, encontradas 100
+  'tenant_b': esperadas 100, encontradas 100
+  'tenant_c': esperadas 100, encontradas 100
+  'tenant_d': esperadas 100, encontradas 100
+RESULTADO: OK
