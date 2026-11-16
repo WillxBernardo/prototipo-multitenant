@@ -1,0 +1,17 @@
+# Ciclo de metadados do consumidor do sink (grupo connect-destino): v2_esquema, execução 2
+# Fonte: docker compose logs --no-log-prefix kafka-connect, linhas do grupo connect-destino com
+#   'Subscribed to pattern', 'Finished assignment', 'Notifying assignor' ou 'Adding newly assigned partitions'.
+assinatura_do_sink_utc: 2026-11-16T13:43:01.123Z
+passo0_utc: 2026-11-16T13:43:12.000Z
+rebalanceamento_com_tenant_d_utc: 2026-11-16T13:48:04.013Z
+passo0_menos_assinatura_s: 10.9
+rebalanceamento_menos_assinatura_s: 302.9
+rebalanceamento_menos_passo0_s: 292.0
+# Linhas do log (cortadas em 300 caracteres):
+2026-11-16T13:43:01,123 INFO   ||  [Consumer clientId=connector-consumer-destino-0, groupId=connect-destino] Subscribed to pattern: 'app\.tenant_.*'   [org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer]
+2026-11-16T13:43:03,294 INFO   ||  [Consumer clientId=connector-consumer-destino-0, groupId=connect-destino] Finished assignment for group at generation 1: {connector-consumer-destino-0-4a8cc22b-5193-455b-97a2-b88cf83a8016=Assignment(partitions=[app.tenant_c.clientes-0, app.tenant_c.pedidos-0, app.t
+2026-11-16T13:43:03,302 INFO   ||  [Consumer clientId=connector-consumer-destino-0, groupId=connect-destino] Notifying assignor about the new Assignment(partitions=[app.tenant_c.clientes-0, app.tenant_c.pedidos-0, app.tenant_a.clientes-0, app.tenant_b.produtos-0, app.tenant_c.itens_pedido-0, app.ten
+2026-11-16T13:43:03,302 INFO   ||  [Consumer clientId=connector-consumer-destino-0, groupId=connect-destino] Adding newly assigned partitions: [app.tenant_a.clientes-0, app.tenant_a.itens_pedido-0, app.tenant_a.pedidos-0, app.tenant_a.produtos-0, app.tenant_b.clientes-0, app.tenant_b.itens_pedido-0,
+2026-11-16T13:48:04,013 INFO   ||  [Consumer clientId=connector-consumer-destino-0, groupId=connect-destino] Finished assignment for group at generation 2: {connector-consumer-destino-0-4a8cc22b-5193-455b-97a2-b88cf83a8016=Assignment(partitions=[app.tenant_c.pedidos-0, app.tenant_d.produtos-0, app.t
+2026-11-16T13:48:04,015 INFO   ||  [Consumer clientId=connector-consumer-destino-0, groupId=connect-destino] Notifying assignor about the new Assignment(partitions=[app.tenant_c.pedidos-0, app.tenant_d.produtos-0, app.tenant_d.pedidos-0, app.tenant_a.clientes-0, app.tenant_d.itens_pedido-0, app.tena
+2026-11-16T13:48:04,015 INFO   ||  [Consumer clientId=connector-consumer-destino-0, groupId=connect-destino] Adding newly assigned partitions: [app.tenant_a.clientes-0, app.tenant_a.itens_pedido-0, app.tenant_a.pedidos-0, app.tenant_a.produtos-0, app.tenant_b.clientes-0, app.tenant_b.itens_pedido-0,

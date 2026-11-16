@@ -67,3 +67,4 @@ v1_banco,1,pos_tenant_d,M3c,nao,"nenhum conector, slot ou publicação existente
 v1_banco,1,pos_tenant_d,M3d,280.3,2026-11-16T12:59:05Z -> 2026-11-16T13:03:45Z; 57 tentativas a cada 5 s
 v3_compartilhado,2,pos_tenant_d,M3d,5.7,2026-11-16T13:40:41Z -> 2026-11-16T13:40:46Z; 2 tentativas a cada 5 s
 v3_compartilhado,3,pos_tenant_d,M3d,6.0,2026-11-16T13:41:50Z -> 2026-11-16T13:41:55Z; 2 tentativas a cada 5 s
+v2_esquema,2,pos_tenant_d,M3d,301.1,2026-11-16T13:43:12Z -> 2026-11-16T13:48:13Z; 61 tentativas a cada 5 s

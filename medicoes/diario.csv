@@ -12,3 +12,7 @@ v1_banco,1,4,2026-11-16T12:59:07Z,edicao,variantes/v1_banco/dbt/dbt_project.yml:
 v1_banco,1,5,2026-11-16T13:03:45Z,comando,"dbt run em variantes/v1_banco/dbt, assim que as 4 tabelas tenant_d_public_* apareceram no destino"
 v3_compartilhado,2,0,2026-11-16T13:40:41Z,origem,variantes/v3_compartilhado/origem/criar_tenant.sh tenant_d (novas linhas com tenant_id nas tabelas do banco app)
 v3_compartilhado,3,0,2026-11-16T13:41:50Z,origem,variantes/v3_compartilhado/origem/criar_tenant.sh tenant_d (novas linhas com tenant_id nas tabelas do banco app)
+v2_esquema,2,0,2026-11-16T13:43:12Z,origem,"variantes/v2_esquema/origem/criar_tenant.sh tenant_d (novo schema tenant_d no banco app, com tabelas e dados)"
+v2_esquema,2,1,2026-11-16T13:43:14Z,edicao,variantes/v2_esquema/dbt/models/sources.yml: nova source tenant_d com as 4 tabelas app_tenant_d_*
+v2_esquema,2,2,2026-11-16T13:43:14Z,edicao,variantes/v2_esquema/dbt/dbt_project.yml: tenant_d acrescentado em vars.tenants
+v2_esquema,2,3,2026-11-16T13:48:08Z,comando,"dbt run em variantes/v2_esquema/dbt, assim que as 4 tabelas app_tenant_d_* apareceram no destino"
