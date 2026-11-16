@@ -19,6 +19,9 @@ Modo --aguardar (métrica M3d): repete a verificação a cada 5 s até passar ou
 --timeout. Ao passar, informa os segundos desde --inicio (padrão: o início do script)
 e imprime uma linha final "resultado_json: {...}".
 
+Opção --com-email (análise complementar B, seção 11): dim_clientes também precisa ter a
+coluna email, com o valor 'cliente<id>@<tenant>.exemplo'.
+
 Códigos de saída: 0 = bate; 1 = não bate (ou tempo esgotado); 2 = erro de conexão ou de uso.
 
 Conexão por variáveis de ambiente (exporte o .env com: set -a; . ./.env; set +a):
@@ -76,6 +79,18 @@ MODELOS = (
     ),
 )
 
+# Análise complementar B (seção 11): dim_clientes com a coluna email.
+MODELOS_EMAIL = (
+    MODELOS[0],
+    Modelo(
+        "dim_clientes",
+        ("tenant_id", "cliente_id"),
+        ("nome", "cidade", "criado_em", "email"),
+        "select tenant_id::text, cliente_id::bigint, nome::text, cidade::text,"
+        " criado_em::timestamp, email::text from {}.dim_clientes",
+    ),
+)
+
 
 class Diferencas(NamedTuple):
     modelo: Modelo
@@ -110,7 +125,7 @@ class Resultado(NamedTuple):
         return "; ".join(d.resumo() for d in self.diferencas if not d.ok)
 
 
-def calcular_esperado(tenants: list[str]) -> dict[str, dict[tuple, tuple]]:
+def calcular_esperado(tenants: list[str], com_email: bool = False) -> dict[str, dict[tuple, tuple]]:
     fct: dict[tuple, tuple] = {}
     dim: dict[tuple, tuple] = {}
     for tenant in tenants:
@@ -122,6 +137,8 @@ def calcular_esperado(tenants: list[str]) -> dict[str, dict[tuple, tuple]]:
             fct[(tenant, p.id)] = (p.cliente_id, p.criado_em.date(), p.status, total[p.id].quantize(CENTAVO))
         for c in dados.clientes:
             dim[(tenant, c.id)] = (c.nome, c.cidade, c.criado_em)
+            if com_email:
+                dim[(tenant, c.id)] += (f"cliente{c.id}@{tenant}.exemplo",)
     return {"fct_pedidos": fct, "dim_clientes": dim}
 
 
@@ -172,7 +189,7 @@ def parametros_conexao() -> dict:
     }
 
 
-def verificar_uma_vez(params: dict, schema: str, esperado: dict) -> Resultado:
+def verificar_uma_vez(params: dict, schema: str, esperado: dict, modelos: tuple = MODELOS) -> Resultado:
     try:
         conexao = psycopg2.connect(**params)
     except psycopg2.Error as erro:
@@ -182,14 +199,14 @@ def verificar_uma_vez(params: dict, schema: str, esperado: dict) -> Resultado:
         conexao.set_session(isolation_level=extensions.ISOLATION_LEVEL_REPEATABLE_READ, readonly=True)
         linhas = {}
         with conexao.cursor() as cursor:
-            for modelo in MODELOS:
+            for modelo in modelos:
                 cursor.execute(sql.SQL(modelo.consulta).format(sql.Identifier(schema)))
                 linhas[modelo.nome] = cursor.fetchall()
     except psycopg2.Error as erro:
         return Resultado([], f"erro na consulta: {str(erro).strip()}")
     finally:
         conexao.close()
-    return Resultado([comparar(m, esperado[m.nome], linhas[m.nome]) for m in MODELOS])
+    return Resultado([comparar(m, esperado[m.nome], linhas[m.nome]) for m in modelos])
 
 
 def _fmt(valor: object) -> str:
@@ -250,13 +267,13 @@ def _ler_instante(texto: str) -> dt.datetime:
 
 
 def aguardar(params: dict, schema: str, esperado: dict, tenants: list[str],
-             timeout: float, inicio: dt.datetime, max_exemplos: int) -> int:
+             timeout: float, inicio: dt.datetime, max_exemplos: int, modelos: tuple = MODELOS) -> int:
     t0 = time.monotonic()
     tentativa = 0
     while True:
         tentativa += 1
         momento = _agora()
-        resultado = verificar_uma_vez(params, schema, esperado)
+        resultado = verificar_uma_vez(params, schema, esperado, modelos)
         if resultado.ok:
             segundos = (momento - inicio).total_seconds()
             imprimir(resultado, max_exemplos)
@@ -289,6 +306,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--inicio", type=_ler_instante,
                         help="instante de referência para M3d, ISO 8601 (sem fuso = UTC); padrão: início do script")
     parser.add_argument("--max-exemplos", type=int, default=10, help="exemplos impressos por tipo de diferença (padrão: 10)")
+    parser.add_argument("--com-email", action="store_true",
+                        help="análise complementar B: exige email em dim_clientes ('cliente<id>@<tenant>.exemplo')")
     args = parser.parse_args(argv)
 
     try:
@@ -297,13 +316,14 @@ def main(argv: list[str] | None = None) -> int:
         parser.error(str(erro))
 
     params = parametros_conexao()
-    esperado = calcular_esperado(tenants)
+    esperado = calcular_esperado(tenants, args.com_email)
+    modelos = MODELOS_EMAIL if args.com_email else MODELOS
 
     if args.aguardar:
         return aguardar(params, args.schema, esperado, tenants, args.timeout,
-                        args.inicio or inicio_script, args.max_exemplos)
+                        args.inicio or inicio_script, args.max_exemplos, modelos)
 
-    resultado = verificar_uma_vez(params, args.schema, esperado)
+    resultado = verificar_uma_vez(params, args.schema, esperado, modelos)
     imprimir(resultado, args.max_exemplos)
     if resultado.erro_conexao:
         return 2
