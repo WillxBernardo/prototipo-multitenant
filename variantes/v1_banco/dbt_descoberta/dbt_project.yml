@@ -1,0 +1,11 @@
+name: v1_banco_descoberta
+version: "1.0.0"
+profile: prototipo
+
+flags:
+  send_anonymous_usage_stats: false
+
+# Sem lista de tenants: a macro unir_tenants descobre as tabelas de cada tenant no destino.
+models:
+  v1_banco_descoberta:
+    +materialized: view

@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Montagem com os 3 tenants iniciais, conforme o README da variante (seção 5.2), a partir de ambiente limpo.
+# Uso: comum/execucao/montar.sh <variante> [diretório dbt da variante, padrão dbt]
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 set -a; . ./.env; set +a
-v=$1; V=variantes/$v
+v=$1; dbt_dir=${2:-dbt}; V=variantes/$v
 docker compose down -v --remove-orphans > /dev/null 2>&1
 docker compose up -d --wait --wait-timeout 300 > /dev/null 2>&1
 echo "ambiente no ar: $(date -u +%H:%M:%SZ)"
@@ -27,6 +28,6 @@ for i in $(seq 1 60); do
     sleep 3
 done
 echo "linhas no destino: $r"
-(cd "$V/dbt" && ../../../.venv/bin/dbt run 2>&1 | grep -E 'Done\.|ERROR')
+(cd "$V/$dbt_dir" && ../../../.venv/bin/dbt run 2>&1 | grep -E 'Done\.|ERROR')
 .venv/bin/python comum/verificar.py tenant_a tenant_b tenant_c | tail -1
 echo "montagem concluída: $(date -u +%H:%M:%SZ)"

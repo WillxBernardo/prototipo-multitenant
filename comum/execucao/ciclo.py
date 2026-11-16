@@ -1,7 +1,7 @@
 """Extrai dos logs do Kafka Connect o ciclo de metadados do consumidor do sink (grupo connect-destino).
 
-Uso: python3 comum/execucao/ciclo.py <raiz do repo> <variante> <execucao> <passo0_utc ISO>
-Grava medicoes/brutos/<variante>_e<execucao>_ciclo_metadados.txt.
+Uso: python3 comum/execucao/ciclo.py <raiz do repo> <variante> <execucao> <passo0_utc ISO> [arquivo de saída]
+Grava medicoes/brutos/<variante>_e<execucao>_ciclo_metadados.txt (ou o arquivo de saída indicado).
 """
 import datetime as dt
 import re
@@ -45,6 +45,7 @@ resumo = [
     f"rebalanceamento_menos_passo0_s: {delta(rebalanceamento, t0)}",
     "# Linhas do log (cortadas em 300 caracteres):",
 ]
-saida = Path(raiz) / "medicoes" / "brutos" / f"{variante}_e{execucao}_ciclo_metadados.txt"
+saida = (Path(sys.argv[5]) if len(sys.argv) > 5
+         else Path(raiz) / "medicoes" / "brutos" / f"{variante}_e{execucao}_ciclo_metadados.txt")
 saida.write_text("\n".join(resumo + [l[:300] for l in linhas]) + "\n", encoding="utf-8")
 print("\n".join(resumo[3:9]))
