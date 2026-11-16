@@ -1,0 +1,5 @@
+git diff --stat dd9ab3c dd5dc00 -- variantes/v1_banco/conectores variantes/v1_banco/dbt :(exclude,glob)**/README.md
+ variantes/v1_banco/conectores/origem_tenant_d.json | 15 +++++++++++++++
+ variantes/v1_banco/dbt/dbt_project.yml             |  2 +-
+ variantes/v1_banco/dbt/models/sources.yml          | 12 ++++++++++++
+ 3 files changed, 28 insertions(+), 1 deletion(-)

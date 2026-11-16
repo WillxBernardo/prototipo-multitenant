@@ -1,0 +1,4 @@
+debezium_tenant_a|pgoutput|logical|tenant_a|t
+debezium_tenant_b|pgoutput|logical|tenant_b|t
+debezium_tenant_c|pgoutput|logical|tenant_c|t
+debezium_tenant_d|pgoutput|logical|tenant_d|t

@@ -52,3 +52,16 @@ v1_banco,1,inicial,M2c,12,3 blocos de source
 v1_banco,1,inicial,M2d,1,unir_tenants
 v1_banco,1,inicial,M2e,179,conectores/ e dbt/
 v1_banco,1,inicial,M2e_origem,34,"origem/ (auxiliar, fora de M2e)"
+v1_banco,1,pos_tenant_d,M1a,5,5 registrados; ativos: destino origem-tenant_a origem-tenant_b origem-tenant_c origem-tenant_d
+v1_banco,1,pos_tenant_d,M1b,4,debezium_tenant_a debezium_tenant_b debezium_tenant_c debezium_tenant_d
+v1_banco,1,pos_tenant_d,M1c,16,4 internos excluídos
+v1_banco,1,pos_tenant_d,M2a,5,destino.json origem_tenant_a.json origem_tenant_b.json origem_tenant_c.json origem_tenant_d.json
+v1_banco,1,pos_tenant_d,M2b,6,dim_clientes fct_pedidos stg_clientes stg_itens_pedido stg_pedidos stg_produtos
+v1_banco,1,pos_tenant_d,M2c,16,4 blocos de source
+v1_banco,1,pos_tenant_d,M2d,1,unir_tenants
+v1_banco,1,pos_tenant_d,M2e,205,conectores/ e dbt/
+v1_banco,1,pos_tenant_d,M2e_origem,34,"origem/ (auxiliar, fora de M2e)"
+v1_banco,1,pos_tenant_d,M3a,5,"1 chamada_api, 1 comando, 3 edicao"
+v1_banco,1,pos_tenant_d,M3b,3,dd9ab3c..dd5dc00: +28 -1; origem_tenant_d.json dbt_project.yml sources.yml
+v1_banco,1,pos_tenant_d,M3c,nao,"nenhum conector, slot ou publicação existente foi reiniciado ou recriado, mas a incorporação exigiu criar e registrar um conector novo (origem-tenant_d), que criou um slot novo (debezium_tenant_d) e uma publicação nova (dbz_publication no banco tenant_d); o sink passou a consumir os novos tópicos sozinho, na atualização de metadados da assinatura por regex (~4,5 min depois)"
+v1_banco,1,pos_tenant_d,M3d,280.3,2026-11-16T12:59:05Z -> 2026-11-16T13:03:45Z; 57 tentativas a cada 5 s
