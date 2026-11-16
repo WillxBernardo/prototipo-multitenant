@@ -11,3 +11,4 @@ v1_banco,1,3,2026-11-16T12:59:06Z,edicao,variantes/v1_banco/dbt/models/sources.y
 v1_banco,1,4,2026-11-16T12:59:07Z,edicao,variantes/v1_banco/dbt/dbt_project.yml: tenant_d acrescentado em vars.tenants
 v1_banco,1,5,2026-11-16T13:03:45Z,comando,"dbt run em variantes/v1_banco/dbt, assim que as 4 tabelas tenant_d_public_* apareceram no destino"
 v3_compartilhado,2,0,2026-11-16T13:40:41Z,origem,variantes/v3_compartilhado/origem/criar_tenant.sh tenant_d (novas linhas com tenant_id nas tabelas do banco app)
+v3_compartilhado,3,0,2026-11-16T13:41:50Z,origem,variantes/v3_compartilhado/origem/criar_tenant.sh tenant_d (novas linhas com tenant_id nas tabelas do banco app)

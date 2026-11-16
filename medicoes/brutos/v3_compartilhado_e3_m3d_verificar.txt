@@ -1,0 +1,13 @@
+[2026-11-16T13:41:50Z] tentativa 1: ainda não bate (fct_pedidos: faltando 840, sobrando 0, divergentes 160, duplicadas 0)
+fct_pedidos: OK (esperadas 4000, encontradas 4000)
+  'tenant_a': esperadas 1000, encontradas 1000
+  'tenant_b': esperadas 1000, encontradas 1000
+  'tenant_c': esperadas 1000, encontradas 1000
+  'tenant_d': esperadas 1000, encontradas 1000
+dim_clientes: OK (esperadas 400, encontradas 400)
+  'tenant_a': esperadas 100, encontradas 100
+  'tenant_b': esperadas 100, encontradas 100
+  'tenant_c': esperadas 100, encontradas 100
+  'tenant_d': esperadas 100, encontradas 100
+OK na tentativa 2 (consulta às 2026-11-16T13:41:55Z): 6.0 s desde 2026-11-16T13:41:50Z
+resultado_json: {"ok": true, "tenants": ["tenant_a", "tenant_b", "tenant_c", "tenant_d"], "inicio_utc": "2026-11-16T13:41:50Z", "sucesso_utc": "2026-11-16T13:41:55Z", "segundos": 6.0, "tentativas": 2, "intervalo_s": 5}

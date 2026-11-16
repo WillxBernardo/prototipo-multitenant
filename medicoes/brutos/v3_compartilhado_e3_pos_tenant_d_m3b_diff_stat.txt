@@ -1,0 +1,1 @@
+git diff --stat ca0bedd -- variantes/v3_compartilhado/conectores variantes/v3_compartilhado/dbt :(exclude,glob)**/README.md
