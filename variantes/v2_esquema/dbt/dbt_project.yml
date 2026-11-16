@@ -1,0 +1,14 @@
+name: v2_esquema
+version: "1.0.0"
+profile: prototipo
+
+flags:
+  send_anonymous_usage_stats: false
+
+# Tenants unidos pela macro unir_tenants (cada um precisa de uma source em models/sources.yml).
+vars:
+  tenants: [tenant_a, tenant_b, tenant_c]
+
+models:
+  v2_esquema:
+    +materialized: view
