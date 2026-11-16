@@ -1,0 +1,18 @@
+variante,metrica,valor,observacao
+bp,M1a,>=2,1 origem + >=1 sink (manifesto do sink não visto)
+bp,M1b,1,
+bp,M1c,<=64,+1 heartbeat; 1344 sem roteamento; não confirmado ao vivo
+bp,M2a,0,0 versionados (1 manifesto de origem fora do git)
+bp,M2b,114,"63 silver, 49 gold, 2 embeddings"
+bp,M2c,64,
+bp,M2d,13,"6 macros + 7 testes genéricos, em 10 arquivos"
+bp,M2e,9965,dbt 9922 + conector de origem 43; sink fora; 6764 linhas são YAML de docs/testes
+bp,M3a,3,"na captura (editar lista do conector, reinício, snapshot do histórico); sink e dbt automáticos"
+bp,M3b,0,0 arquivos do repositório; 1 manifesto fora do git
+bp,M3c,sim,reinício do conector
+bp,M3d,não medido,
+bp,tenants_cadastrados,8,tenants cadastrados
+bp,tenants_schemas_capturados,21,schemas capturados
+bp,tenants_cadastrados_no_gold,7,tenants cadastrados que chegam ao gold
+bp,tenants_orfaos,14,órfãos
+bp,evolucao_esquema,captura e sink automáticos; dbt manual,união de colunas

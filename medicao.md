@@ -161,7 +161,7 @@ Um commit ao fim de cada medição. Nenhuma credencial é versionada.
 | Kafka Connect / Debezium | `quay.io/debezium/connect:3.6.3.Final` (`sha256:99aa63f43fa828bc991687dd9d3895cd83cb4213e3848ed0238c5fd83ba95e1c`): runtime Kafka Connect 4.3.0, conector Debezium Postgres 3.6.3.Final (`pgoutput`) |
 | Debezium JDBC Sink | 3.6.3.Final, incluído na imagem do Connect acima |
 | dbt-core / dbt-postgres | 1.11.17 / 1.11.0, com Python 3.12.3; todas as dependências fixadas em `comum/requirements.txt` |
-| Commit do pipeline do Brasil Participativo | a preencher na Etapa 8 |
+| Commit do pipeline do Brasil Participativo | airflow-dags-saas 9b358f6 (2026-11-11); airflow-docker-saas 36d25a2 (2026-10-14); conectores não versionados, manifesto de origem recebido da infra em 2026-11-09; ambiente de homologação |
 
 ## 11. Desvios do protocolo
 
