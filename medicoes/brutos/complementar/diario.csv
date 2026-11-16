@@ -39,3 +39,4 @@ v1_banco,B,1,8,2026-11-16T14:36:35Z,origem,banco tenant_c: update clientes set e
 v1_banco,B,1,9,2026-11-16T14:36:47Z,edicao,variantes/v1_banco/dbt/models/staging/stg_clientes.sql: coluna email acrescentada
 v1_banco,B,1,10,2026-11-16T14:36:48Z,edicao,variantes/v1_banco/dbt/models/marts/dim_clientes.sql: coluna email acrescentada
 v1_banco,B,1,11,2026-11-16T14:36:50Z,comando,"dbt run em variantes/v1_banco/dbt, assim que a coluna email apareceu nas 3 tabelas brutas de clientes"
+v2_esquema,D,1,0,2026-11-16T14:45:46Z,origem,"variantes/v2_esquema/origem/criar_tenant.sh tenant_d (novo schema tenant_d no banco app, com tabelas e dados)"

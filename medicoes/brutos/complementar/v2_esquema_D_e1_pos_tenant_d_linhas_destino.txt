@@ -1,0 +1,4 @@
+public.raw_clientes|400
+public.raw_itens_pedido|12098
+public.raw_pedidos|4000
+public.raw_produtos|200

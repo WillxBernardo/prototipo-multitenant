@@ -1,0 +1,8 @@
+__consumer_offsets
+_connect_configs
+_connect_offsets
+_connect_statuses
+raw.clientes
+raw.itens_pedido
+raw.pedidos
+raw.produtos

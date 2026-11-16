@@ -1,0 +1,14 @@
+# Ciclo de metadados do consumidor do sink (grupo connect-destino): v2_esquema, execução 1
+# Fonte: docker compose logs --no-log-prefix kafka-connect, linhas do grupo connect-destino com
+#   'Subscribed to pattern', 'Finished assignment', 'Notifying assignor' ou 'Adding newly assigned partitions'.
+assinatura_do_sink_utc: 2026-11-16T14:45:38.481Z
+passo0_utc: 2026-11-16T14:45:46.000Z
+rebalanceamento_com_tenant_d_utc: não houve (nenhum tópico novo a assinar)
+passo0_menos_assinatura_s: 7.5
+rebalanceamento_menos_assinatura_s: n/a
+rebalanceamento_menos_passo0_s: n/a
+# Linhas do log (cortadas em 300 caracteres):
+2026-11-16T14:45:38,481 INFO   ||  [Consumer clientId=connector-consumer-destino-0, groupId=connect-destino] Subscribed to pattern: 'raw\..*'   [org.apache.kafka.clients.consumer.internals.ClassicKafkaConsumer]
+2026-11-16T14:45:39,282 INFO   ||  [Consumer clientId=connector-consumer-destino-0, groupId=connect-destino] Finished assignment for group at generation 1: {connector-consumer-destino-0-93d511be-68a0-4d32-9cd4-19ac5d38a797=Assignment(partitions=[raw.itens_pedido-0, raw.clientes-0, raw.pedidos-0, raw
+2026-11-16T14:45:39,286 INFO   ||  [Consumer clientId=connector-consumer-destino-0, groupId=connect-destino] Notifying assignor about the new Assignment(partitions=[raw.itens_pedido-0, raw.clientes-0, raw.pedidos-0, raw.produtos-0])   [org.apache.kafka.clients.consumer.internals.ConsumerCoordinator]
+2026-11-16T14:45:39,287 INFO   ||  [Consumer clientId=connector-consumer-destino-0, groupId=connect-destino] Adding newly assigned partitions: [raw.clientes-0, raw.itens_pedido-0, raw.pedidos-0, raw.produtos-0]   [org.apache.kafka.clients.consumer.internals.ConsumerRebalanceListenerInvoker]

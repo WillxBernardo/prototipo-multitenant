@@ -1,0 +1,93 @@
+{
+  "origem": {
+    "status": {
+      "name": "origem",
+      "connector": {
+        "state": "RUNNING",
+        "worker_id": "172.19.0.5:8083",
+        "version": "3.6.3.Final"
+      },
+      "tasks": [
+        {
+          "id": 0,
+          "state": "RUNNING",
+          "worker_id": "172.19.0.5:8083",
+          "version": "3.6.3.Final"
+        }
+      ],
+      "type": "source"
+    },
+    "info": {
+      "name": "origem",
+      "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "database.user": "postgres",
+        "database.dbname": "app",
+        "transforms": "rotear",
+        "schema.include.list": "tenant_.*",
+        "transforms.rotear.topic.replacement": "raw.$2",
+        "transforms.rotear.key.field.name": "tenant_id",
+        "transforms.rotear.topic.regex": "app\\.([^.]+)\\.([^.]+)",
+        "plugin.name": "pgoutput",
+        "database.port": "5432",
+        "transforms.rotear.type": "io.debezium.transforms.ByLogicalTableRouter",
+        "topic.prefix": "app",
+        "database.hostname": "postgres-origem",
+        "transforms.rotear.key.field.regex": "app\\.([^.]+)\\.([^.]+)",
+        "database.password": "${env:PG_ORIGEM_SENHA}",
+        "transforms.rotear.key.field.replacement": "$1",
+        "name": "origem"
+      },
+      "tasks": [
+        {
+          "connector": "origem",
+          "task": 0
+        }
+      ],
+      "type": "source"
+    }
+  },
+  "destino": {
+    "status": {
+      "name": "destino",
+      "connector": {
+        "state": "RUNNING",
+        "worker_id": "172.19.0.5:8083",
+        "version": "3.6.3.Final"
+      },
+      "tasks": [
+        {
+          "id": 0,
+          "state": "RUNNING",
+          "worker_id": "172.19.0.5:8083",
+          "version": "3.6.3.Final"
+        }
+      ],
+      "type": "sink"
+    },
+    "info": {
+      "name": "destino",
+      "config": {
+        "connector.class": "io.debezium.connector.jdbc.JdbcSinkConnector",
+        "delete.enabled": "true",
+        "connection.password": "${env:PG_DESTINO_SENHA}",
+        "primary.key.mode": "record_key",
+        "schema.evolution": "basic",
+        "tasks.max": "1",
+        "connection.username": "postgres",
+        "name": "destino",
+        "connection.url": "jdbc:postgresql://postgres-destino:5432/dw",
+        "insert.mode": "upsert",
+        "topics.regex": "raw\\..*",
+        "use.time.zone": "UTC"
+      },
+      "tasks": [
+        {
+          "connector": "destino",
+          "task": 0
+        }
+      ],
+      "type": "sink"
+    }
+  }
+}

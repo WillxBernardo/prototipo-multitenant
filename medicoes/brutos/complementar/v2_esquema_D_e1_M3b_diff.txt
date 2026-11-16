@@ -1,0 +1,9 @@
+$ git diff --stat HEAD -- variantes/v2_esquema/roteado/conectores
+
+
+arquivos novos não versionados: nenhum
+
+$ git diff --stat HEAD -- variantes/v2_esquema/roteado/dbt
+
+
+arquivos novos não versionados: nenhum

@@ -68,3 +68,28 @@ v3_compartilhado,C,1,M1c_N3,4,"fórmula M1c = 4 = 4 para N = 3 (inicial, execuç
 v3_compartilhado,C,1,M1a_N4,2,"fórmula M1a = 2 = 2 para N = 4 (pos_tenant_d, execução 1): bate"
 v3_compartilhado,C,1,M1b_N4,1,"fórmula M1b = 1 = 1 para N = 4 (pos_tenant_d, execução 1): bate"
 v3_compartilhado,C,1,M1c_N4,4,"fórmula M1c = 4 = 4 para N = 4 (pos_tenant_d, execução 1): bate"
+v2_esquema,D,1,M2b_inicial,6,roteado/dbt/models
+v2_esquema,D,1,M2c_inicial,4,1 blocos de source
+v2_esquema,D,1,M2d_inicial,0,
+v2_esquema,D,1,M2e_inicial,123,roteado/conectores/ e roteado/dbt/
+v2_esquema,D,1,M1a_inicial,2,2 registrados; ativos: destino origem
+v2_esquema,D,1,M1b_inicial,1,debezium
+v2_esquema,D,1,M1c_inicial,4,4 internos excluídos
+v2_esquema,D,1,M1a_pos_tenant_d,2,2 registrados; ativos: destino origem
+v2_esquema,D,1,M1b_pos_tenant_d,1,debezium
+v2_esquema,D,1,M1c_pos_tenant_d,4,4 internos excluídos
+v2_esquema,D,1,M2b_pos,6,roteado/dbt/models
+v2_esquema,D,1,M2c_pos,4,1 blocos de source
+v2_esquema,D,1,M2d_pos,0,
+v2_esquema,D,1,M2e_pos,123,roteado/conectores/ e roteado/dbt/
+v2_esquema,D,1,M3a,0,nenhum passo
+v2_esquema,D,1,M3b,0,nenhum arquivo
+v2_esquema,D,1,M3c,nao,"nada foi reiniciado, recriado ou criado; o novo schema foi capturado pelo regex e roteado para os tópicos raw.* já assinados pelo sink"
+v2_esquema,D,1,M3d,5.5,2026-11-16T14:45:46Z -> 2026-11-16T14:45:51Z; 2 tentativas a cada 5 s
+v2_esquema,D_lista_fechada,0,M3a,3,"analítico, não executado. (1) edicao: acrescentar tenant_d.clientes, tenant_d.produtos, tenant_d.pedidos e tenant_d.itens_pedido ao table.include.list do JSON do conector de origem; (2) chamada_api: PUT /connectors/origem/config, com que o Connect reinicia o conector e a tarefa; (3) comando: INSERT de um sinal execute-snapshot incremental na tabela de sinalização para as tabelas do tenant_d, porque as linhas gravadas antes da inclusão foram descartadas pelo filtro na leitura do WAL. Sink e dbt: nenhum passo (tópicos raw.* e dbt sem lista de tenants)"
+v2_esquema,D_lista_fechada,0,M3b,1,"analítico: o JSON do conector de origem (no BP, um manifesto fora do git)"
+v2_esquema,D_lista_fechada,0,M3c,sim,"analítico: atualizar a configuração reinicia o conector e a tarefa; o streaming de todos os tenants para durante o reinício e retoma do offset do slot, sem perda"
+v2_esquema,D_lista_fechada,0,M3d,não medido,"analítico, não executado"
+v2_esquema,D_lista_fechada,0,prerequisito,canal de sinais,"o snapshot incremental exige um canal de sinais configurado na montagem (signal.data.collection com uma tabela de sinalização na origem), configuração única"
+v2_esquema,D_lista_fechada,0,publicacao,sem passo extra,"com a publicação padrão (FOR ALL TABLES) nada muda; com publication.autocreate.mode=filtered, o conector executa ALTER PUBLICATION ... SET TABLE com o filtro atual ao reiniciar (documentação do Debezium 3.6)"
+v2_esquema,D_lista_fechada,0,ordem,M3a = 2 se antes,"se a lista for atualizada antes de a aplicação criar as tabelas do tenant, o streaming captura todas as linhas e o snapshot é dispensável; no procedimento do protocolo (passo 0 primeiro), ele é necessário"
