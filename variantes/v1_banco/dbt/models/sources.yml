@@ -35,3 +35,15 @@ sources:
         identifier: tenant_c_public_pedidos
       - name: itens_pedido
         identifier: tenant_c_public_itens_pedido
+
+  - name: tenant_d
+    schema: public
+    tables:
+      - name: clientes
+        identifier: tenant_d_public_clientes
+      - name: produtos
+        identifier: tenant_d_public_produtos
+      - name: pedidos
+        identifier: tenant_d_public_pedidos
+      - name: itens_pedido
+        identifier: tenant_d_public_itens_pedido

@@ -4,3 +4,9 @@ v2_esquema,1,0,2026-11-16T12:53:04Z,origem,"variantes/v2_esquema/origem/criar_te
 v2_esquema,1,1,2026-11-16T12:53:05Z,edicao,variantes/v2_esquema/dbt/models/sources.yml: nova source tenant_d com as 4 tabelas app_tenant_d_*
 v2_esquema,1,2,2026-11-16T12:53:06Z,edicao,variantes/v2_esquema/dbt/dbt_project.yml: tenant_d acrescentado em vars.tenants
 v2_esquema,1,3,2026-11-16T12:57:43Z,comando,"dbt run em variantes/v2_esquema/dbt, assim que as 4 tabelas app_tenant_d_* apareceram no destino"
+v1_banco,1,0,2026-11-16T12:59:05Z,origem,"variantes/v1_banco/origem/criar_tenant.sh tenant_d (novo banco tenant_d, com tabelas e dados)"
+v1_banco,1,1,2026-11-16T12:59:06Z,edicao,variantes/v1_banco/conectores/origem_tenant_d.json: novo conector Debezium para o banco tenant_d (topic.prefix e slot.name próprios)
+v1_banco,1,2,2026-11-16T12:59:06Z,chamada_api,POST /connectors com variantes/v1_banco/conectores/origem_tenant_d.json (registro do conector origem-tenant_d)
+v1_banco,1,3,2026-11-16T12:59:06Z,edicao,variantes/v1_banco/dbt/models/sources.yml: nova source tenant_d com as 4 tabelas tenant_d_public_*
+v1_banco,1,4,2026-11-16T12:59:07Z,edicao,variantes/v1_banco/dbt/dbt_project.yml: tenant_d acrescentado em vars.tenants
+v1_banco,1,5,2026-11-16T13:03:45Z,comando,"dbt run em variantes/v1_banco/dbt, assim que as 4 tabelas tenant_d_public_* apareceram no destino"
