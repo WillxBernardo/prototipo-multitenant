@@ -30,3 +30,16 @@ v2_esquema,1,inicial,M2c,12,3 blocos de source
 v2_esquema,1,inicial,M2d,1,unir_tenants
 v2_esquema,1,inicial,M2e,148,conectores/ e dbt/
 v2_esquema,1,inicial,M2e_origem,37,"origem/ (auxiliar, fora de M2e)"
+v2_esquema,1,pos_tenant_d,M1a,2,2 registrados; ativos: destino origem
+v2_esquema,1,pos_tenant_d,M1b,1,debezium
+v2_esquema,1,pos_tenant_d,M1c,16,4 internos excluídos
+v2_esquema,1,pos_tenant_d,M2a,2,destino.json origem.json
+v2_esquema,1,pos_tenant_d,M2b,6,dim_clientes fct_pedidos stg_clientes stg_itens_pedido stg_pedidos stg_produtos
+v2_esquema,1,pos_tenant_d,M2c,16,4 blocos de source
+v2_esquema,1,pos_tenant_d,M2d,1,unir_tenants
+v2_esquema,1,pos_tenant_d,M2e,159,conectores/ e dbt/
+v2_esquema,1,pos_tenant_d,M2e_origem,37,"origem/ (auxiliar, fora de M2e)"
+v2_esquema,1,pos_tenant_d,M3a,3,"1 comando, 2 edicao"
+v2_esquema,1,pos_tenant_d,M3b,2,f5460c9..6d39926: +13 -1; dbt_project.yml sources.yml
+v2_esquema,1,pos_tenant_d,M3c,nao,"nenhum conector, slot ou publicação foi reiniciado ou recriado; a publicação FOR ALL TABLES e o schema.include.list tenant_.* capturaram o novo schema sem intervenção (tópicos app.tenant_d.* criados em ~1 s); o sink passou a consumir os novos tópicos sozinho, na atualização de metadados da assinatura por regex (~4,5 min depois)"
+v2_esquema,1,pos_tenant_d,M3d,280.8,2026-11-16T12:53:04Z -> 2026-11-16T12:57:44Z; 57 tentativas a cada 5 s
