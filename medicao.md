@@ -40,13 +40,17 @@ Os resultados, combinados com os da revisão de literatura cinzenta (QP1), respo
 - `pedidos` (id, cliente_id, criado_em, status)
 - `itens_pedido` (id, pedido_id, produto_id, quantidade, preco_unitario)
 
-**Dados:** gerados por script com semente fixa (`42`), com o mesmo volume por tenant (100 clientes, 50 produtos, 1.000 pedidos, cerca de 3 itens por pedido). O conteúdo de cada tenant é idêntico entre as variantes.
+**Dados:** gerados por script (`comum/gerar_dados.py`) com semente fixa (`42`), com o mesmo volume por tenant (100 clientes, 50 produtos, 1.000 pedidos, cerca de 3 itens por pedido). A semente de cada tenant é derivada da semente fixa e do nome do tenant (SHA-256 de `"42:<tenant>"`). Assim, o conteúdo de cada tenant é idêntico entre as variantes e entre execuções, e tenants diferentes têm conteúdos diferentes, o que permite à verificação detectar dados trocados entre tenants.
 
-**Estado final esperado (critério de correção):** em todas as variantes, o destino deve conter os mesmos dois modelos finais:
-- `fct_pedidos` (um registro por pedido, com `tenant_id`, `cliente_id`, data, status, valor total);
-- `dim_clientes` (um registro por cliente e tenant, com `tenant_id`).
+**Estado final esperado (critério de correção):** em todas as variantes, o destino deve conter, no schema `analytics`, os mesmos dois modelos finais:
+- `fct_pedidos` (um registro por pedido): `tenant_id`, `pedido_id`, `cliente_id`, `data_pedido`, `status`, `valor_total` (soma de `quantidade * preco_unitario` dos itens do pedido);
+- `dim_clientes` (um registro por cliente e tenant): `tenant_id`, `cliente_id`, `nome`, `cidade`, `criado_em`.
 
-Uma consulta de verificação compara o conteúdo desses modelos com o esperado a partir dos dados gerados. Uma variante só é medida quando a verificação passa.
+Nos dois modelos, `tenant_id` é o nome do tenant em texto (por exemplo, `tenant_a`).
+
+**Materialização no dbt:** nas três variantes, os modelos de staging e os modelos finais são materializados como **view**. Assim, o `dbt run` só é passo de incorporação quando o projeto dbt precisa mudar; se uma variante exigir alteração no dbt para o novo tenant aparecer, isso entra em M3a e M3b.
+
+Uma consulta de verificação (`comum/verificar.py`) compara o conteúdo desses modelos com o esperado a partir dos dados gerados. Uma variante só é medida quando a verificação passa.
 
 ## 4. Métricas (definições congeladas pela tag)
 
@@ -103,7 +107,7 @@ Partindo do estado da seção 5.2, já correto:
 
 ### 5.4 Repetições
 - M1, M2, M3a, M3b e M3c são determinísticas: medidas uma vez por variante.
-- M3d (tempo) é medida em **3 execuções** independentes, cada uma em ambiente limpo; reporta-se a mediana e os valores extremos.
+- M3d (tempo) é medida em **uma execução** por variante, em ambiente limpo. Por ser uma única execução, o valor é indicativo e não permite comparação estatística entre variantes (seção 9).
 
 ## 6. Diário de operação
 
@@ -120,7 +124,7 @@ Cada ação do operador durante a incorporação vira uma linha em `medicoes/dia
 O pipeline real é medido com as mesmas métricas, sobre uma **versão fixa** (commit identificado na seção 10).
 - **M1:** contagem de conectores, slots e tópicos em produção ou homologação.
 - **M2:** contagem dos artefatos do pipeline (conectores, modelos e macros dbt, definições de orquestração, se houver).
-- **M3:** passos, arquivos e reinícios necessários para incorporar um tenant, obtidos do procedimento real (runbook, histórico de commits ou acompanhamento de uma incorporação). M3d só é reportada se puder ser medida.
+- **M3:** passos, arquivos e reinícios necessários para incorporar um tenant, obtidos do procedimento real (runbook, histórico de commits ou acompanhamento de uma incorporação). M3d só é reportada se puder ser medida. No BP, cada novo tenant cria na origem um schema com nome no formato UUID, e a captura o descobre automaticamente por uma regra de inclusão por expressão regular restrita a nomes nesse formato; a medição verifica se alguma etapa posterior (sink, dbt) ainda exige ação manual.
 - Apenas números agregados são publicados. Nenhum dado de participantes ou da plataforma é copiado para este repositório.
 
 ## 8. Registro e rastreabilidade
@@ -140,6 +144,7 @@ Um commit ao fim de cada medição. Nenhuma credencial é versionada.
 - Desempenho e carga estão fora do escopo.
 - A regra de configuração idiomática mínima mede cada estratégia sem automação própria. Em produção, equipes costumam automatizar parte da incorporação, o que reduziria M3 em algumas variantes.
 - O estudo de caso cobre apenas o esquema por tenant.
+- M3d foi medida uma única vez por variante; diferenças de poucos segundos não devem ser interpretadas.
 
 ## 10. Versões e referências de execução
 

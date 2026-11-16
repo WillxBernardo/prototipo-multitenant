@@ -1,0 +1,114 @@
+# Ambiente comum às três variantes (seção 3 do medicao.md).
+# Todas as imagens têm versão exata fixada; as versões são registradas na seção 10 do protocolo.
+# As senhas vêm do arquivo .env (não versionado). Modelo em .env.exemplo.
+name: prototipo-multitenant
+
+services:
+  # Banco da aplicação. Cada variante cria seus próprios bancos/schemas aqui.
+  postgres-origem:
+    image: postgres:17.12
+    command:
+      - postgres
+      - -c
+      - wal_level=logical
+      # A v1_banco usa um slot por banco de tenant (até 6 no pior caso); 10 deixa folga.
+      - -c
+      - max_replication_slots=10
+      - -c
+      - max_wal_senders=10
+    environment:
+      POSTGRES_PASSWORD: ${PG_ORIGEM_SENHA:?defina PG_ORIGEM_SENHA no .env}
+    ports:
+      - "127.0.0.1:${PG_ORIGEM_PORTA:-15432}:5432"
+    volumes:
+      - pg-origem-dados:/var/lib/postgresql/data
+    healthcheck:
+      # -h 127.0.0.1: só responde depois do initdb (o servidor temporário do initdb não escuta TCP).
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  # Kafka em modo KRaft, nó único (broker + controller).
+  kafka:
+    image: apache/kafka:4.3.2
+    hostname: kafka
+    environment:
+      CLUSTER_ID: 9TX4jlSwYLojilWzM09LYA
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_SHARE_COORDINATOR_STATE_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_SHARE_COORDINATOR_STATE_TOPIC_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      # Explícito (é o padrão): os tópicos de dados são criados pelo broker na primeira escrita.
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+    volumes:
+      - kafka-dados:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 > /dev/null 2>&1"]
+      interval: 10s
+      timeout: 20s
+      retries: 12
+      start_period: 15s
+
+  # Kafka Connect da Debezium: já traz o conector Postgres e o JDBC Sink.
+  kafka-connect:
+    image: quay.io/debezium/connect:3.6.3.Final
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9092
+      GROUP_ID: connect-cluster
+      # Tópicos internos com prefixo "_" para separá-los dos tópicos de dados (métrica M1c).
+      CONFIG_STORAGE_TOPIC: _connect_configs
+      OFFSET_STORAGE_TOPIC: _connect_offsets
+      STATUS_STORAGE_TOPIC: _connect_statuses
+      # Permite que os JSON dos conectores referenciem as senhas como ${env:PG_ORIGEM_SENHA},
+      # sem gravar credenciais nos arquivos versionados.
+      CONNECT_CONFIG_PROVIDERS: env
+      CONNECT_CONFIG_PROVIDERS_ENV_CLASS: org.apache.kafka.common.config.provider.EnvVarConfigProvider
+      PG_ORIGEM_SENHA: ${PG_ORIGEM_SENHA:?defina PG_ORIGEM_SENHA no .env}
+      PG_DESTINO_SENHA: ${PG_DESTINO_SENHA:?defina PG_DESTINO_SENHA no .env}
+    ports:
+      - "127.0.0.1:${CONNECT_PORTA:-8083}:8083"
+    healthcheck:
+      # Usa o nome do serviço: o entrypoint da Debezium faz a API REST escutar no IP do contêiner.
+      test: ["CMD-SHELL", "curl -fsS -o /dev/null http://kafka-connect:8083/connectors"]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 30s
+
+  # "Data warehouse": recebe os dados do JDBC Sink e os modelos do dbt.
+  postgres-destino:
+    image: postgres:17.12
+    environment:
+      POSTGRES_PASSWORD: ${PG_DESTINO_SENHA:?defina PG_DESTINO_SENHA no .env}
+      POSTGRES_DB: dw
+    ports:
+      - "127.0.0.1:${PG_DESTINO_PORTA:-15433}:5432"
+    volumes:
+      - pg-destino-dados:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d dw"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+volumes:
+  pg-origem-dados:
+  kafka-dados:
+  pg-destino-dados:

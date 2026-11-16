@@ -218,3 +218,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Dados gerados por comum/gerar_dados.py (reproduzíveis, não versionados)
+/dados/

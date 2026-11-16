@@ -1,0 +1,7 @@
+# Dependências diretas. O requirements.txt, com todas as dependências (inclusive as
+# transitivas) fixadas, é gerado a partir deste arquivo com:
+#   uv pip compile comum/requirements.in --universal --python-version 3.12 -o comum/requirements.txt
+dbt-core==1.11.17
+dbt-postgres==1.11.0
+# Usado por comum/verificar.py; é o mesmo driver que o dbt-postgres usa.
+psycopg2-binary==2.9.13
