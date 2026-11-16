@@ -1,0 +1,9 @@
+# Ciclo de metadados do consumidor do sink (grupo connect-destino): v3_compartilhado, execução 1
+# RECONSTITUÍDO: os logs do contêiner kafka-connect desta execução foram perdidos no "docker compose down -v"
+# que antecedeu a montagem da v2. Nenhuma linha do grupo connect-destino foi registrada durante a execução.
+assinatura_do_sink_utc: não registrada
+passo0_utc: 2026-11-16T12:51:44Z
+rebalanceamento_com_tenant_d_utc: não houve (a v3 não cria tópicos novos: o tenant_d entra nos tópicos app.public.* já assinados)
+passo0_menos_assinatura_s: n/a
+rebalanceamento_menos_assinatura_s: n/a
+rebalanceamento_menos_passo0_s: n/a

@@ -26,6 +26,10 @@ M3 (só em pos_tenant_d; exige --antes, --depois, --m3c, --m3c-descricao e --m3d
   M3c  sim/nao, com a descrição informada
   M3d  segundos do resultado_json da saída de verificar.py --aguardar
 
+--somente-m3d (execuções 2 e 3; desvio registrado na seção 11): grava só M3d. M3a e M3b
+(este contra --depois ou, se omitido, contra a árvore de trabalho) são calculados só para
+conferência e salvos em brutos; M1, M2 e M3c não são coletados.
+
 Uso (na raiz do repositório, com o .env exportado: set -a; . ./.env; set +a):
   python comum/medir.py v3_compartilhado inicial
   python comum/medir.py v3_compartilhado pos_tenant_d --antes <commit> --depois <commit> \\
@@ -239,18 +243,20 @@ def medir_m3(c: Coleta, args: argparse.Namespace, dir_medicoes: Path) -> None:
 
     base = f"variantes/{c.variante}"
     caminhos = [f"{base}/conectores", f"{base}/dbt", ":(exclude,glob)**/README.md"]
-    antes = executar("git", "rev-parse", "--short", args.antes).strip()
-    depois = executar("git", "rev-parse", "--short", args.depois).strip()
-    estatistica = executar("git", "diff", "--stat", antes, depois, "--", *caminhos)
-    numstat = executar("git", "diff", "--numstat", antes, depois, "--", *caminhos)
-    c.bruto("m3b_diff_stat.txt", f"git diff --stat {antes} {depois} -- {' '.join(caminhos)}\n{estatistica}")
+    # Sem --depois (só com --somente-m3d), compara --antes com a árvore de trabalho.
+    refs = [executar("git", "rev-parse", "--short", r).strip() for r in (args.antes, args.depois) if r]
+    rotulo = "..".join(refs) if len(refs) == 2 else f"{refs[0]}..árvore de trabalho"
+    estatistica = executar("git", "diff", "--stat", *refs, "--", *caminhos)
+    numstat = executar("git", "diff", "--numstat", *refs, "--", *caminhos)
+    c.bruto("m3b_diff_stat.txt", f"git diff --stat {' '.join(refs)} -- {' '.join(caminhos)}\n{estatistica}")
     alterados = [linha.split("\t") for linha in numstat.splitlines() if linha]
     mais = sum(int(a) for a, _, _ in alterados if a != "-")
     menos = sum(int(r) for _, r, _ in alterados if r != "-")
     c.metrica("M3b", len(alterados),
-              f"{antes}..{depois}: +{mais} -{menos}; " + " ".join(Path(p).name for _, _, p in alterados))
+              f"{rotulo}: +{mais} -{menos}; " + " ".join(Path(p).name for _, _, p in alterados))
 
-    c.metrica("M3c", args.m3c, args.m3c_descricao)
+    if args.m3c:
+        c.metrica("M3c", args.m3c, args.m3c_descricao)
 
     linhas = Path(args.m3d_arquivo).read_text(encoding="utf-8").splitlines()
     json_m3d = next((l.split(":", 1)[1] for l in reversed(linhas) if l.startswith("resultado_json:")), None)
@@ -277,9 +283,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--m3c-descricao", default="")
     parser.add_argument("--m3d-arquivo", help="saída de verificar.py --aguardar (M3d)")
     parser.add_argument("--dir-medicoes", type=Path, default=RAIZ / "medicoes")
+    parser.add_argument("--somente-m3d", action="store_true",
+                        help="execuções 2 e 3: grava só M3d; M3a e M3b ficam só como conferência em brutos")
     args = parser.parse_args(argv)
 
-    if args.momento == "pos_tenant_d" and not all((args.antes, args.depois, args.m3c, args.m3d_arquivo)):
+    if args.somente_m3d:
+        if args.momento != "pos_tenant_d" or not (args.antes and args.m3d_arquivo):
+            parser.error("--somente-m3d exige pos_tenant_d, --antes e --m3d-arquivo")
+    elif args.momento == "pos_tenant_d" and not all((args.antes, args.depois, args.m3c, args.m3d_arquivo)):
         parser.error("pos_tenant_d exige --antes, --depois, --m3c e --m3d-arquivo")
 
     resultados = args.dir_medicoes / "resultados.csv"
@@ -291,10 +302,18 @@ def main(argv: list[str] | None = None) -> int:
 
     c = Coleta(args.variante, args.execucao, args.momento, args.dir_medicoes)
     verificar_correcao(c)
-    medir_m1(c)
-    medir_m2(c)
-    if args.momento == "pos_tenant_d":
+    if args.somente_m3d:
         medir_m3(c, args, args.dir_medicoes)
+        conferencia = [linha for linha in c.linhas if linha[3] in ("M3a", "M3b")]
+        c.bruto("conferencia_m3a_m3b.txt", "".join(f"{l[3]} {l[4]} {l[5]}\n" for l in conferencia))
+        for linha in conferencia:
+            print(f"conferência (não gravada): {linha[3]} {linha[4]}  {linha[5]}")
+        c.linhas = [linha for linha in c.linhas if linha[3] == "M3d"]
+    else:
+        medir_m1(c)
+        medir_m2(c)
+        if args.momento == "pos_tenant_d":
+            medir_m3(c, args, args.dir_medicoes)
 
     commit = executar("git", "rev-parse", "--short", "HEAD").strip()
     alterado = bool(executar("git", "status", "--porcelain", "--", f"variantes/{args.variante}").strip())

@@ -1,0 +1,13 @@
+# Ciclo de metadados do consumidor do sink (grupo connect-destino): v2_esquema, execução 1
+# RECONSTITUÍDO: os logs do contêiner kafka-connect desta execução foram perdidos no "docker compose down -v"
+# que antecedeu a montagem da v1. Os dados abaixo vêm das saídas registradas durante a execução.
+assinatura_do_sink_utc: não registrada (estimativa: ~2026-11-16T12:52:39Z, 5 min antes do rebalanceamento;
+  coerente com o registro do sink entre o fim do snapshot e o dbt run da montagem, às 12:52:43Z)
+passo0_utc: 2026-11-16T12:53:04Z
+rebalanceamento_com_tenant_d_utc: 2026-11-16T12:57:40.062Z
+passo0_menos_assinatura_s: ~25 (estimado)
+rebalanceamento_menos_assinatura_s: ~301 (estimado)
+rebalanceamento_menos_passo0_s: 276.1
+# Linhas do log preservadas na saída da sessão (cortadas):
+2026-11-16T12:57:40,062 INFO   ||  [Consumer clientId=connector-consumer-destino-0, groupId=connect-destino] Finished assignment for group at generation 2: {connector-consumer-destino-0-364a9786-0583-4674-96f9-f515742ab6a0=Assignment(partiti
+2026-11-16T12:57:40,063 INFO   ||  [Consumer clientId=connector-consumer-destino-0, groupId=connect-destino] Notifying assignor about the new Assignment(partitions=[app.tenant_c.pedidos-0, app.tenant_d.produtos-0, app.tenant_d.pedidos-0, app
