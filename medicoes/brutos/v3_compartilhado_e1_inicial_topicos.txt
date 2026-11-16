@@ -1,0 +1,8 @@
+__consumer_offsets
+_connect_configs
+_connect_offsets
+_connect_statuses
+app.public.clientes
+app.public.itens_pedido
+app.public.pedidos
+app.public.produtos

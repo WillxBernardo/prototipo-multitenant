@@ -1,0 +1,10 @@
+variante,execucao,momento,metrica,valor,observacao
+v3_compartilhado,1,inicial,M1a,2,2 registrados; ativos: destino origem
+v3_compartilhado,1,inicial,M1b,1,debezium
+v3_compartilhado,1,inicial,M1c,4,4 internos excluídos
+v3_compartilhado,1,inicial,M2a,2,destino.json origem.json
+v3_compartilhado,1,inicial,M2b,6,dim_clientes fct_pedidos stg_clientes stg_itens_pedido stg_pedidos stg_produtos
+v3_compartilhado,1,inicial,M2c,4,1 blocos de source
+v3_compartilhado,1,inicial,M2d,0,
+v3_compartilhado,1,inicial,M2e,116,conectores/ e dbt/
+v3_compartilhado,1,inicial,M2e_origem,49,"origem/ (auxiliar, fora de M2e)"

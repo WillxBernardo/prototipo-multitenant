@@ -1,0 +1,4 @@
+public.app_public_clientes|300
+public.app_public_itens_pedido|8987
+public.app_public_pedidos|3000
+public.app_public_produtos|150

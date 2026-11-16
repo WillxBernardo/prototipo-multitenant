@@ -1,0 +1,15 @@
+metrica,arquivo,linhas_uteis
+M2e,variantes/v3_compartilhado/conectores/destino.json,16
+M2e,variantes/v3_compartilhado/conectores/origem.json,14
+M2e,variantes/v3_compartilhado/dbt/dbt_project.yml,8
+M2e,variantes/v3_compartilhado/dbt/models/marts/dim_clientes.sql,7
+M2e,variantes/v3_compartilhado/dbt/models/marts/fct_pedidos.sql,19
+M2e,variantes/v3_compartilhado/dbt/models/sources.yml,12
+M2e,variantes/v3_compartilhado/dbt/models/staging/stg_clientes.sql,7
+M2e,variantes/v3_compartilhado/dbt/models/staging/stg_itens_pedido.sql,8
+M2e,variantes/v3_compartilhado/dbt/models/staging/stg_pedidos.sql,7
+M2e,variantes/v3_compartilhado/dbt/models/staging/stg_produtos.sql,6
+M2e,variantes/v3_compartilhado/dbt/profiles.yml,12
+M2e_origem,variantes/v3_compartilhado/origem/criar_tenant.sh,9
+M2e_origem,variantes/v3_compartilhado/origem/esquema.sql,35
+M2e_origem,variantes/v3_compartilhado/origem/preparar.sh,5
