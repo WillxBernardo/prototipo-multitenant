@@ -1,0 +1,15 @@
+{
+  "name": "origem-tenant_c",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "plugin.name": "pgoutput",
+    "database.hostname": "postgres-origem",
+    "database.port": "5432",
+    "database.user": "postgres",
+    "database.password": "${env:PG_ORIGEM_SENHA}",
+    "database.dbname": "tenant_c",
+    "topic.prefix": "tenant_c",
+    "slot.name": "debezium_tenant_c",
+    "schema.include.list": "public"
+  }
+}

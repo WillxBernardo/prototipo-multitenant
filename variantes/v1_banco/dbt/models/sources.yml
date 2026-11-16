@@ -1,0 +1,37 @@
+# Tabelas criadas pelo JDBC Sink: nome do tópico com "." trocado por "_".
+sources:
+  - name: tenant_a
+    schema: public
+    tables:
+      - name: clientes
+        identifier: tenant_a_public_clientes
+      - name: produtos
+        identifier: tenant_a_public_produtos
+      - name: pedidos
+        identifier: tenant_a_public_pedidos
+      - name: itens_pedido
+        identifier: tenant_a_public_itens_pedido
+
+  - name: tenant_b
+    schema: public
+    tables:
+      - name: clientes
+        identifier: tenant_b_public_clientes
+      - name: produtos
+        identifier: tenant_b_public_produtos
+      - name: pedidos
+        identifier: tenant_b_public_pedidos
+      - name: itens_pedido
+        identifier: tenant_b_public_itens_pedido
+
+  - name: tenant_c
+    schema: public
+    tables:
+      - name: clientes
+        identifier: tenant_c_public_clientes
+      - name: produtos
+        identifier: tenant_c_public_produtos
+      - name: pedidos
+        identifier: tenant_c_public_pedidos
+      - name: itens_pedido
+        identifier: tenant_c_public_itens_pedido
