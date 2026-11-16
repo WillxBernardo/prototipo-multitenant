@@ -1,0 +1,25 @@
+variante,analise,execucao,metrica,valor,observacao
+v2_esquema,A,1,M2b_inicial,6,dbt_descoberta/models
+v2_esquema,A,1,M2c_inicial,0,0 blocos de source
+v2_esquema,A,1,M2d_inicial,1,unir_tenants
+v2_esquema,A,1,M2e_inicial,128,conectores/ e dbt_descoberta/
+v2_esquema,A,1,M3a,1,1 comando
+v2_esquema,A,1,M3b,0,nenhum arquivo
+v2_esquema,A,1,M3c,nao,"nada foi reiniciado, recriado ou criado; captura do novo schema e assinatura dos novos tópicos automáticas, como na medição principal"
+v2_esquema,A,1,M3d,295.7,2026-11-16T14:18:42Z -> 2026-11-16T14:23:37Z; 60 tentativas a cada 5 s
+v2_esquema,A,1,M2b_pos,6,dbt_descoberta/models
+v2_esquema,A,1,M2c_pos,0,0 blocos de source
+v2_esquema,A,1,M2d_pos,1,unir_tenants
+v2_esquema,A,1,M2e_pos,128,conectores/ e dbt_descoberta/
+v1_banco,A,1,M2b_inicial,6,dbt_descoberta/models
+v1_banco,A,1,M2c_inicial,0,0 blocos de source
+v1_banco,A,1,M2d_inicial,1,unir_tenants
+v1_banco,A,1,M2e_inicial,159,conectores/ e dbt_descoberta/
+v1_banco,A,1,M3a,3,"1 chamada_api, 1 comando, 1 edicao"
+v1_banco,A,1,M3b,1,origem_tenant_d.json
+v1_banco,A,1,M3c,nao,"nenhum conector, slot ou publicação existente foi reiniciado ou recriado; foi criado e registrado o conector origem-tenant_d (slot debezium_tenant_d e publicação no banco tenant_d), como na medição principal"
+v1_banco,A,1,M3d,295.2,2026-11-16T14:24:41Z -> 2026-11-16T14:29:36Z; 60 tentativas a cada 5 s
+v1_banco,A,1,M2b_pos,6,dbt_descoberta/models
+v1_banco,A,1,M2c_pos,0,0 blocos de source
+v1_banco,A,1,M2d_pos,1,unir_tenants
+v1_banco,A,1,M2e_pos,174,conectores/ e dbt_descoberta/

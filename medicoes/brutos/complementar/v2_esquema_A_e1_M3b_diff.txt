@@ -1,0 +1,9 @@
+$ git diff --stat HEAD -- variantes/v2_esquema/conectores
+
+
+arquivos novos não versionados: nenhum
+
+$ git diff --stat HEAD -- variantes/v2_esquema/dbt_descoberta
+
+
+arquivos novos não versionados: nenhum

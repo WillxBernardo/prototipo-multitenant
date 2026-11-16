@@ -1,0 +1,7 @@
+variante,analise,execucao,passo,timestamp_utc,tipo,descricao
+v2_esquema,A,1,0,2026-11-16T14:18:42Z,origem,"variantes/v2_esquema/origem/criar_tenant.sh tenant_d (novo schema tenant_d no banco app, com tabelas e dados)"
+v2_esquema,A,1,1,2026-11-16T14:23:37Z,comando,"dbt run em variantes/v2_esquema/dbt_descoberta, assim que as 4 tabelas app_tenant_d_* apareceram no destino (sem edição de arquivos)"
+v1_banco,A,1,0,2026-11-16T14:24:41Z,origem,"variantes/v1_banco/origem/criar_tenant.sh tenant_d (novo banco tenant_d, com tabelas e dados)"
+v1_banco,A,1,1,2026-11-16T14:24:42Z,edicao,variantes/v1_banco/conectores/origem_tenant_d.json: novo conector Debezium para o banco tenant_d (topic.prefix e slot.name próprios)
+v1_banco,A,1,2,2026-11-16T14:24:42Z,chamada_api,POST /connectors com variantes/v1_banco/conectores/origem_tenant_d.json (registro do conector origem-tenant_d)
+v1_banco,A,1,3,2026-11-16T14:29:35Z,comando,"dbt run em variantes/v1_banco/dbt_descoberta, assim que as 4 tabelas tenant_d_public_* apareceram no destino (sem edição de arquivos do dbt)"

@@ -1,0 +1,15 @@
+arquivo,linhas_uteis
+variantes/v1_banco/conectores/destino.json,16
+variantes/v1_banco/conectores/origem_tenant_a.json,15
+variantes/v1_banco/conectores/origem_tenant_b.json,15
+variantes/v1_banco/conectores/origem_tenant_c.json,15
+variantes/v1_banco/conectores/origem_tenant_d.json,15
+variantes/v1_banco/dbt_descoberta/dbt_project.yml,8
+variantes/v1_banco/dbt_descoberta/macros/unir_tenants.sql,24
+variantes/v1_banco/dbt_descoberta/models/marts/dim_clientes.sql,7
+variantes/v1_banco/dbt_descoberta/models/marts/fct_pedidos.sql,19
+variantes/v1_banco/dbt_descoberta/models/staging/stg_clientes.sql,7
+variantes/v1_banco/dbt_descoberta/models/staging/stg_itens_pedido.sql,8
+variantes/v1_banco/dbt_descoberta/models/staging/stg_pedidos.sql,7
+variantes/v1_banco/dbt_descoberta/models/staging/stg_produtos.sql,6
+variantes/v1_banco/dbt_descoberta/profiles.yml,12
