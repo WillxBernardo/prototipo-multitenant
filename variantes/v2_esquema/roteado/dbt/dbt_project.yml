@@ -1,0 +1,10 @@
+name: v2_esquema_roteado
+version: "1.0.0"
+profile: prototipo
+
+flags:
+  send_anonymous_usage_stats: false
+
+models:
+  v2_esquema_roteado:
+    +materialized: view

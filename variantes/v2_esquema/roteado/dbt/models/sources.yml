@@ -1,0 +1,14 @@
+# Tabelas criadas pelo JDBC Sink a partir dos tópicos roteados raw.<tabela> ("." trocado por "_").
+# O tenant_id vem da chave (schema de origem), inserida pelo ByLogicalTableRouter.
+sources:
+  - name: raw
+    schema: public
+    tables:
+      - name: clientes
+        identifier: raw_clientes
+      - name: produtos
+        identifier: raw_produtos
+      - name: pedidos
+        identifier: raw_pedidos
+      - name: itens_pedido
+        identifier: raw_itens_pedido

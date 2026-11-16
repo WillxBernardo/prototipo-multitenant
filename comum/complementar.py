@@ -17,8 +17,12 @@ Subcomandos (na raiz do repositório; todos aceitam --execucao, padrão 1):
            arquivos alterados entre REF e a árvore de trabalho em cada CAMINHO (sem README.md),
            incluindo arquivos novos ainda não versionados
   tempo    <variante> <analise> <metrica> <saída do verificar.py --aguardar>
-  m2       <variante> <analise> --dbt <diretório do projeto dbt na variante> [--sufixo _inicial]
-           M2b, M2c, M2d e M2e (conectores/ + o diretório dbt indicado), como no medir.py
+  m2       <variante> <analise> --dbt <diretório dbt> [--conectores <diretório>] [--sufixo _inicial]
+           M2b, M2c, M2d e M2e (conectores + o diretório dbt indicado, relativos a variantes/<variante>/),
+           como no medir.py
+  m1       <variante> <analise> <inicial|pos_tenant_d>
+           roda a verificação de correção do momento e coleta M1a, M1b e M1c do ambiente em execução,
+           com as mesmas funções do medir.py (métricas gravadas como M1x_<momento>)
 """
 
 from __future__ import annotations
@@ -127,9 +131,19 @@ def cmd_tempo(args) -> None:
            f"{r['inicio_utc']} -> {r['sucesso_utc']}; {r['tentativas']} tentativas a cada {r['intervalo_s']} s")
 
 
+def cmd_m1(args) -> None:
+    c = medir.Coleta(args.variante, args.execucao, args.momento, RAIZ / "medicoes")
+    c.brutos = BRUTOS
+    c.prefixo = f"{args.variante}_{args.analise}_e{args.execucao}_{args.momento}_"
+    medir.verificar_correcao(c)
+    medir.medir_m1(c)
+    for linha in c.linhas:
+        gravar(args, f"{linha[3]}_{args.momento}", linha[4], linha[5])
+
+
 def cmd_m2(args) -> None:
     base = RAIZ / "variantes" / args.variante
-    conectores, dbt = base / "conectores", base / args.dbt
+    conectores, dbt = base / args.conectores, base / args.dbt
     modelos = [p for p in medir.arquivos(dbt / "models") if p.suffix == ".sql"]
     macros = [p for p in medir.arquivos(dbt / "macros") if p.suffix == ".sql"]
     blocos, tabelas = medir.contar_sources(dbt)
@@ -147,7 +161,7 @@ def cmd_m2(args) -> None:
     gravar(args, f"M2b{s}", len(modelos), f"{args.dbt}/models")
     gravar(args, f"M2c{s}", tabelas, f"{blocos} blocos de source")
     gravar(args, f"M2d{s}", len(macros), " ".join(p.stem for p in macros))
-    gravar(args, f"M2e{s}", total, f"conectores/ e {args.dbt}/")
+    gravar(args, f"M2e{s}", total, f"{args.conectores}/ e {args.dbt}/")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -181,7 +195,10 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("arquivo")
     p = novo("m2", cmd_m2)
     p.add_argument("--dbt", required=True)
+    p.add_argument("--conectores", default="conectores")
     p.add_argument("--sufixo", default="")
+    p = novo("m1", cmd_m1)
+    p.add_argument("momento", choices=tuple(medir.TENANTS))
 
     args = parser.parse_args(argv)
     args.funcao(args)
