@@ -1,0 +1,12 @@
+prototipo:
+  target: dw
+  outputs:
+    dw:
+      type: postgres
+      host: "{{ env_var('PG_DESTINO_HOST', 'localhost') }}"
+      port: "{{ env_var('PG_DESTINO_PORTA', '15433') | int }}"
+      user: postgres
+      password: "{{ env_var('PG_DESTINO_SENHA') }}"
+      dbname: dw
+      schema: analytics
+      threads: 4

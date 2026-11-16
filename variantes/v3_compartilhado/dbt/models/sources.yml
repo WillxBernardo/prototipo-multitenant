@@ -1,0 +1,13 @@
+# Tabelas criadas pelo JDBC Sink: nome do tópico com "." trocado por "_".
+sources:
+  - name: app
+    schema: public
+    tables:
+      - name: clientes
+        identifier: app_public_clientes
+      - name: produtos
+        identifier: app_public_produtos
+      - name: pedidos
+        identifier: app_public_pedidos
+      - name: itens_pedido
+        identifier: app_public_itens_pedido

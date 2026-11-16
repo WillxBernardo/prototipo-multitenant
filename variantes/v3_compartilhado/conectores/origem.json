@@ -1,0 +1,14 @@
+{
+  "name": "origem",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "plugin.name": "pgoutput",
+    "database.hostname": "postgres-origem",
+    "database.port": "5432",
+    "database.user": "postgres",
+    "database.password": "${env:PG_ORIGEM_SENHA}",
+    "database.dbname": "app",
+    "topic.prefix": "app",
+    "schema.include.list": "public"
+  }
+}

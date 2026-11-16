@@ -1,0 +1,10 @@
+name: v3_compartilhado
+version: "1.0.0"
+profile: prototipo
+
+flags:
+  send_anonymous_usage_stats: false
+
+models:
+  v3_compartilhado:
+    +materialized: view

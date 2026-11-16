@@ -221,3 +221,8 @@ __marimo__/
 
 # Dados gerados por comum/gerar_dados.py (reproduzíveis, não versionados)
 /dados/
+
+# Artefatos do dbt
+target/
+logs/
+dbt_packages/
