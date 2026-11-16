@@ -7,7 +7,7 @@ flags:
 
 # Tenants unidos pela macro unir_tenants (cada um precisa de uma source em models/sources.yml).
 vars:
-  tenants: [tenant_a, tenant_b, tenant_c]
+  tenants: [tenant_a, tenant_b, tenant_c, tenant_d]
 
 models:
   v2_esquema:

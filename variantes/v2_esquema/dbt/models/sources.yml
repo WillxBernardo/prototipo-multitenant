@@ -35,3 +35,15 @@ sources:
         identifier: app_tenant_c_pedidos
       - name: itens_pedido
         identifier: app_tenant_c_itens_pedido
+
+  - name: tenant_d
+    schema: public
+    tables:
+      - name: clientes
+        identifier: app_tenant_d_clientes
+      - name: produtos
+        identifier: app_tenant_d_produtos
+      - name: pedidos
+        identifier: app_tenant_d_pedidos
+      - name: itens_pedido
+        identifier: app_tenant_d_itens_pedido
