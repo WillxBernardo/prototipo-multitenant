@@ -1,0 +1,12 @@
+public.app_tenant_a_clientes|100
+public.app_tenant_a_itens_pedido|2963
+public.app_tenant_a_pedidos|1000
+public.app_tenant_a_produtos|50
+public.app_tenant_b_clientes|100
+public.app_tenant_b_itens_pedido|2987
+public.app_tenant_b_pedidos|1000
+public.app_tenant_b_produtos|50
+public.app_tenant_c_clientes|100
+public.app_tenant_c_itens_pedido|3037
+public.app_tenant_c_pedidos|1000
+public.app_tenant_c_produtos|50

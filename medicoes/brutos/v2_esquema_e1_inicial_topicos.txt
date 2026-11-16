@@ -1,0 +1,16 @@
+__consumer_offsets
+_connect_configs
+_connect_offsets
+_connect_statuses
+app.tenant_a.clientes
+app.tenant_a.itens_pedido
+app.tenant_a.pedidos
+app.tenant_a.produtos
+app.tenant_b.clientes
+app.tenant_b.itens_pedido
+app.tenant_b.pedidos
+app.tenant_b.produtos
+app.tenant_c.clientes
+app.tenant_c.itens_pedido
+app.tenant_c.pedidos
+app.tenant_c.produtos

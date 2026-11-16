@@ -21,3 +21,12 @@ v3_compartilhado,1,pos_tenant_d,M3a,0,nenhum passo
 v3_compartilhado,1,pos_tenant_d,M3b,0,ca0bedd..a8725ae: +0 -0; 
 v3_compartilhado,1,pos_tenant_d,M3c,nao,"nenhum conector, slot ou publicação foi reiniciado, recriado ou criado; o conector de origem e o sink existentes levaram as novas linhas para as tabelas já existentes"
 v3_compartilhado,1,pos_tenant_d,M3d,5.3,2026-11-16T12:51:44Z -> 2026-11-16T12:51:49Z; 2 tentativas a cada 5 s
+v2_esquema,1,inicial,M1a,2,2 registrados; ativos: destino origem
+v2_esquema,1,inicial,M1b,1,debezium
+v2_esquema,1,inicial,M1c,12,4 internos excluídos
+v2_esquema,1,inicial,M2a,2,destino.json origem.json
+v2_esquema,1,inicial,M2b,6,dim_clientes fct_pedidos stg_clientes stg_itens_pedido stg_pedidos stg_produtos
+v2_esquema,1,inicial,M2c,12,3 blocos de source
+v2_esquema,1,inicial,M2d,1,unir_tenants
+v2_esquema,1,inicial,M2e,148,conectores/ e dbt/
+v2_esquema,1,inicial,M2e_origem,37,"origem/ (auxiliar, fora de M2e)"
