@@ -1,0 +1,36 @@
+$ git diff --stat HEAD -- variantes/v3_compartilhado/conectores
+
+
+arquivos novos não versionados: nenhum
+
+$ git diff --stat HEAD -- variantes/v3_compartilhado/dbt
+ variantes/v3_compartilhado/dbt/models/marts/dim_clientes.sql   | 3 ++-
+ variantes/v3_compartilhado/dbt/models/staging/stg_clientes.sql | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/variantes/v3_compartilhado/dbt/models/marts/dim_clientes.sql b/variantes/v3_compartilhado/dbt/models/marts/dim_clientes.sql
+index 6d16cdc..ae38e56 100644
+--- a/variantes/v3_compartilhado/dbt/models/marts/dim_clientes.sql
++++ b/variantes/v3_compartilhado/dbt/models/marts/dim_clientes.sql
+@@ -3,5 +3,6 @@ select
+     cliente_id,
+     nome,
+     cidade,
+-    criado_em
++    criado_em,
++    email
+ from {{ ref('stg_clientes') }}
+diff --git a/variantes/v3_compartilhado/dbt/models/staging/stg_clientes.sql b/variantes/v3_compartilhado/dbt/models/staging/stg_clientes.sql
+index 16c0309..34fb1d4 100644
+--- a/variantes/v3_compartilhado/dbt/models/staging/stg_clientes.sql
++++ b/variantes/v3_compartilhado/dbt/models/staging/stg_clientes.sql
+@@ -3,5 +3,6 @@ select
+     id as cliente_id,
+     nome,
+     cidade,
+-    criado_em
++    criado_em,
++    email
+ from {{ source('app', 'clientes') }}
+
+arquivos novos não versionados: nenhum

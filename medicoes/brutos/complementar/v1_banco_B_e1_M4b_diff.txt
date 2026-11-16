@@ -1,0 +1,36 @@
+$ git diff --stat dd9ab3c -- variantes/v1_banco/conectores
+
+
+arquivos novos não versionados: nenhum
+
+$ git diff --stat dd9ab3c -- variantes/v1_banco/dbt
+ variantes/v1_banco/dbt/models/marts/dim_clientes.sql   | 3 ++-
+ variantes/v1_banco/dbt/models/staging/stg_clientes.sql | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/variantes/v1_banco/dbt/models/marts/dim_clientes.sql b/variantes/v1_banco/dbt/models/marts/dim_clientes.sql
+index 6d16cdc..ae38e56 100644
+--- a/variantes/v1_banco/dbt/models/marts/dim_clientes.sql
++++ b/variantes/v1_banco/dbt/models/marts/dim_clientes.sql
+@@ -3,5 +3,6 @@ select
+     cliente_id,
+     nome,
+     cidade,
+-    criado_em
++    criado_em,
++    email
+ from {{ ref('stg_clientes') }}
+diff --git a/variantes/v1_banco/dbt/models/staging/stg_clientes.sql b/variantes/v1_banco/dbt/models/staging/stg_clientes.sql
+index 9e2d839..f524ead 100644
+--- a/variantes/v1_banco/dbt/models/staging/stg_clientes.sql
++++ b/variantes/v1_banco/dbt/models/staging/stg_clientes.sql
+@@ -3,5 +3,6 @@ select
+     id as cliente_id,
+     nome,
+     cidade,
+-    criado_em
++    criado_em,
++    email
+ from ({{ unir_tenants('clientes') }}) as clientes
+
+arquivos novos não versionados: nenhum

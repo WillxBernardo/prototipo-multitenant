@@ -1,0 +1,13 @@
+[2026-11-16T14:34:55Z] tentativa 1: ainda não bate (erro na consulta: column "email" does not exist)
+[2026-11-16T14:35:00Z] tentativa 2: ainda não bate (erro na consulta: column "email" does not exist)
+[2026-11-16T14:35:05Z] tentativa 3: ainda não bate (erro na consulta: column "email" does not exist)
+fct_pedidos: OK (esperadas 3000, encontradas 3000)
+  'tenant_a': esperadas 1000, encontradas 1000
+  'tenant_b': esperadas 1000, encontradas 1000
+  'tenant_c': esperadas 1000, encontradas 1000
+dim_clientes: OK (esperadas 300, encontradas 300)
+  'tenant_a': esperadas 100, encontradas 100
+  'tenant_b': esperadas 100, encontradas 100
+  'tenant_c': esperadas 100, encontradas 100
+OK na tentativa 4 (consulta às 2026-11-16T14:35:10Z): 16.2 s desde 2026-11-16T14:34:54Z
+resultado_json: {"ok": true, "tenants": ["tenant_a", "tenant_b", "tenant_c"], "inicio_utc": "2026-11-16T14:34:54Z", "sucesso_utc": "2026-11-16T14:35:10Z", "segundos": 16.2, "tentativas": 4, "intervalo_s": 5}

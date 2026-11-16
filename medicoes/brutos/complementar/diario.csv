@@ -5,3 +5,37 @@ v1_banco,A,1,0,2026-11-16T14:24:41Z,origem,"variantes/v1_banco/origem/criar_tena
 v1_banco,A,1,1,2026-11-16T14:24:42Z,edicao,variantes/v1_banco/conectores/origem_tenant_d.json: novo conector Debezium para o banco tenant_d (topic.prefix e slot.name próprios)
 v1_banco,A,1,2,2026-11-16T14:24:42Z,chamada_api,POST /connectors com variantes/v1_banco/conectores/origem_tenant_d.json (registro do conector origem-tenant_d)
 v1_banco,A,1,3,2026-11-16T14:29:35Z,comando,"dbt run em variantes/v1_banco/dbt_descoberta, assim que as 4 tabelas tenant_d_public_* apareceram no destino (sem edição de arquivos do dbt)"
+v3_compartilhado,B,1,0,2026-11-16T14:33:17Z,origem,banco app: alter table clientes add column email text
+v3_compartilhado,B,1,1,2026-11-16T14:33:17Z,origem,banco app: update clientes set email = 'cliente' || id || '@' || tenant_id || '.exemplo' where tenant_id = 'tenant_a'
+v3_compartilhado,B,1,2,2026-11-16T14:33:19Z,observacao,"estado intermediário (só tenant_a migrado): verificar.py com 3 tenants, sem email: ok"
+v3_compartilhado,B,1,3,2026-11-16T14:33:22Z,observacao,estado intermediário: dbt run do projeto dbt original: ok
+v3_compartilhado,B,1,4,2026-11-16T14:33:22Z,observacao,estado intermediário: verificar.py com 3 tenants depois do dbt run: ok
+v3_compartilhado,B,1,5,2026-11-16T14:33:23Z,origem,banco app: update clientes set email = 'cliente' || id || '@' || tenant_id || '.exemplo' where tenant_id = 'tenant_b'
+v3_compartilhado,B,1,6,2026-11-16T14:33:23Z,origem,banco app: update clientes set email = 'cliente' || id || '@' || tenant_id || '.exemplo' where tenant_id = 'tenant_c'
+v3_compartilhado,B,1,7,2026-11-16T14:33:34Z,edicao,variantes/v3_compartilhado/dbt/models/staging/stg_clientes.sql: coluna email acrescentada
+v3_compartilhado,B,1,8,2026-11-16T14:33:35Z,edicao,variantes/v3_compartilhado/dbt/models/marts/dim_clientes.sql: coluna email acrescentada
+v3_compartilhado,B,1,9,2026-11-16T14:33:41Z,comando,"dbt run em variantes/v3_compartilhado/dbt, com a coluna email já presente em app_public_clientes"
+v2_esquema,B,1,0,2026-11-16T14:34:49Z,origem,banco app: alter table tenant_a.clientes add column email text
+v2_esquema,B,1,1,2026-11-16T14:34:49Z,origem,banco app: update tenant_a.clientes set email = 'cliente' || id || '@tenant_a.exemplo'
+v2_esquema,B,1,2,2026-11-16T14:34:50Z,observacao,"estado intermediário (só tenant_a migrado): verificar.py com 3 tenants, sem email: ok"
+v2_esquema,B,1,3,2026-11-16T14:34:53Z,observacao,estado intermediário: dbt run do projeto dbt original: falhou
+v2_esquema,B,1,4,2026-11-16T14:34:53Z,observacao,estado intermediário: verificar.py com 3 tenants depois do dbt run: ok
+v2_esquema,B,1,5,2026-11-16T14:34:54Z,origem,banco app: alter table tenant_b.clientes add column email text
+v2_esquema,B,1,6,2026-11-16T14:34:54Z,origem,banco app: update tenant_b.clientes set email = 'cliente' || id || '@tenant_b.exemplo'
+v2_esquema,B,1,7,2026-11-16T14:34:54Z,origem,banco app: alter table tenant_c.clientes add column email text
+v2_esquema,B,1,8,2026-11-16T14:34:54Z,origem,banco app: update tenant_c.clientes set email = 'cliente' || id || '@tenant_c.exemplo'
+v2_esquema,B,1,9,2026-11-16T14:35:06Z,edicao,variantes/v2_esquema/dbt/models/staging/stg_clientes.sql: coluna email acrescentada
+v2_esquema,B,1,10,2026-11-16T14:35:07Z,edicao,variantes/v2_esquema/dbt/models/marts/dim_clientes.sql: coluna email acrescentada
+v2_esquema,B,1,11,2026-11-16T14:35:10Z,comando,"dbt run em variantes/v2_esquema/dbt, assim que a coluna email apareceu nas 3 tabelas brutas de clientes"
+v1_banco,B,1,0,2026-11-16T14:36:28Z,origem,banco tenant_a: alter table clientes add column email text
+v1_banco,B,1,1,2026-11-16T14:36:28Z,origem,banco tenant_a: update clientes set email = 'cliente' || id || '@tenant_a.exemplo'
+v1_banco,B,1,2,2026-11-16T14:36:30Z,observacao,"estado intermediário (só tenant_a migrado): verificar.py com 3 tenants, sem email: ok"
+v1_banco,B,1,3,2026-11-16T14:36:33Z,observacao,estado intermediário: dbt run do projeto dbt original: falhou
+v1_banco,B,1,4,2026-11-16T14:36:33Z,observacao,estado intermediário: verificar.py com 3 tenants depois do dbt run: ok
+v1_banco,B,1,5,2026-11-16T14:36:34Z,origem,banco tenant_b: alter table clientes add column email text
+v1_banco,B,1,6,2026-11-16T14:36:34Z,origem,banco tenant_b: update clientes set email = 'cliente' || id || '@tenant_b.exemplo'
+v1_banco,B,1,7,2026-11-16T14:36:34Z,origem,banco tenant_c: alter table clientes add column email text
+v1_banco,B,1,8,2026-11-16T14:36:35Z,origem,banco tenant_c: update clientes set email = 'cliente' || id || '@tenant_c.exemplo'
+v1_banco,B,1,9,2026-11-16T14:36:47Z,edicao,variantes/v1_banco/dbt/models/staging/stg_clientes.sql: coluna email acrescentada
+v1_banco,B,1,10,2026-11-16T14:36:48Z,edicao,variantes/v1_banco/dbt/models/marts/dim_clientes.sql: coluna email acrescentada
+v1_banco,B,1,11,2026-11-16T14:36:50Z,comando,"dbt run em variantes/v1_banco/dbt, assim que a coluna email apareceu nas 3 tabelas brutas de clientes"

@@ -1,0 +1,24 @@
+14:33:21  Running with dbt=1.11.17
+14:33:21  Registered adapter: postgres=1.11.0
+14:33:21  Found 6 models, 4 sources, 477 macros
+14:33:21  
+14:33:21  Concurrency: 4 threads (target='dw')
+14:33:21  
+14:33:21  1 of 6 START sql view model analytics.stg_clientes ............................. [RUN]
+14:33:21  2 of 6 START sql view model analytics.stg_itens_pedido ......................... [RUN]
+14:33:21  3 of 6 START sql view model analytics.stg_pedidos .............................. [RUN]
+14:33:21  4 of 6 START sql view model analytics.stg_produtos ............................. [RUN]
+14:33:22  2 of 6 OK created sql view model analytics.stg_itens_pedido .................... [CREATE VIEW in 0.30s]
+14:33:22  4 of 6 OK created sql view model analytics.stg_produtos ........................ [CREATE VIEW in 0.30s]
+14:33:22  1 of 6 OK created sql view model analytics.stg_clientes ........................ [CREATE VIEW in 0.31s]
+14:33:22  3 of 6 OK created sql view model analytics.stg_pedidos ......................... [CREATE VIEW in 0.31s]
+14:33:22  5 of 6 START sql view model analytics.dim_clientes ............................. [RUN]
+14:33:22  6 of 6 START sql view model analytics.fct_pedidos .............................. [RUN]
+14:33:22  5 of 6 OK created sql view model analytics.dim_clientes ........................ [CREATE VIEW in 0.06s]
+14:33:22  6 of 6 OK created sql view model analytics.fct_pedidos ......................... [CREATE VIEW in 0.06s]
+14:33:22  
+14:33:22  Finished running 6 view models in 0 hours 0 minutes and 0.50 seconds (0.50s).
+14:33:22  
+14:33:22  Completed successfully
+14:33:22  
+14:33:22  Done. PASS=6 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=6

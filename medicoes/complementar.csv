@@ -23,3 +23,30 @@ v1_banco,A,1,M2b_pos,6,dbt_descoberta/models
 v1_banco,A,1,M2c_pos,0,0 blocos de source
 v1_banco,A,1,M2d_pos,1,unir_tenants
 v1_banco,A,1,M2e_pos,174,conectores/ e dbt_descoberta/
+v3_compartilhado,B,1,B_sink_coluna_automatica,sim,"o JDBC Sink acrescentou email a app_public_clientes sozinho, ~2 s depois do update do tenant_a"
+v3_compartilhado,B,1,B_intermediario_modelos,ok/ok,"verificar.py (3 tenants, sem email) antes/depois do dbt run, com só o tenant_a migrado"
+v3_compartilhado,B,1,B_intermediario_dbt_run,ok,Done. PASS=6 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=6 
+v3_compartilhado,B,1,M4_app,4,4 origem
+v3_compartilhado,B,1,M4a,3,"1 comando, 2 edicao"
+v3_compartilhado,B,1,M4b,2,dim_clientes.sql stg_clientes.sql
+v3_compartilhado,B,1,M4c,nao,"nenhum conector, slot ou publicação foi reiniciado ou recriado; o Debezium capturou a coluna nova sem intervenção e o JDBC Sink a acrescentou à tabela de destino (schema.evolution=basic)"
+v3_compartilhado,B,1,M4d,20.6,2026-11-16T14:33:23Z -> 2026-11-16T14:33:43Z; 5 tentativas a cada 5 s
+v3_compartilhado,B,1,B_sink_coluna_todas,1 de 1,"tabelas brutas de clientes no destino com a coluna email, ao fim"
+v2_esquema,B,1,B_sink_coluna_automatica,sim,"o JDBC Sink acrescentou email a app_tenant_a_clientes sozinho, ~1 s depois do update do tenant_a"
+v2_esquema,B,1,B_intermediario_modelos,ok/ok,"verificar.py (3 tenants, sem email) antes/depois do dbt run, com só o tenant_a migrado"
+v2_esquema,B,1,B_intermediario_dbt_run,falhou,Done. PASS=4 WARN=0 ERROR=1 SKIP=1 NO-OP=0 TOTAL=6 | Database Error in model stg_clientes (models/staging/stg_clientes.sql)
+v2_esquema,B,1,M4_app,6,6 origem
+v2_esquema,B,1,M4a,3,"1 comando, 2 edicao"
+v2_esquema,B,1,M4b,2,dim_clientes.sql stg_clientes.sql
+v2_esquema,B,1,M4c,nao,"nenhum conector, slot ou publicação foi reiniciado ou recriado; o Debezium capturou a coluna nova em cada schema sem intervenção e o JDBC Sink a acrescentou a cada tabela de destino (schema.evolution=basic)"
+v2_esquema,B,1,M4d,16.2,2026-11-16T14:34:54Z -> 2026-11-16T14:35:10Z; 4 tentativas a cada 5 s
+v2_esquema,B,1,B_sink_coluna_todas,3 de 3,"tabelas brutas de clientes no destino com a coluna email, ao fim"
+v1_banco,B,1,B_sink_coluna_automatica,sim,"o JDBC Sink acrescentou email a tenant_a_public_clientes sozinho, ~2 s depois do update do tenant_a"
+v1_banco,B,1,B_intermediario_modelos,ok/ok,"verificar.py (3 tenants, sem email) antes/depois do dbt run, com só o tenant_a migrado"
+v1_banco,B,1,B_intermediario_dbt_run,falhou,Done. PASS=4 WARN=0 ERROR=1 SKIP=1 NO-OP=0 TOTAL=6 | Database Error in model stg_clientes (models/staging/stg_clientes.sql)
+v1_banco,B,1,M4_app,6,6 origem
+v1_banco,B,1,M4a,3,"1 comando, 2 edicao"
+v1_banco,B,1,M4b,2,dim_clientes.sql stg_clientes.sql
+v1_banco,B,1,M4c,nao,"nenhum conector, slot ou publicação foi reiniciado ou recriado; cada conector capturou a coluna nova no seu banco sem intervenção e o JDBC Sink a acrescentou a cada tabela de destino (schema.evolution=basic)"
+v1_banco,B,1,M4d,20.3,2026-11-16T14:36:35Z -> 2026-11-16T14:36:55Z; 5 tentativas a cada 5 s
+v1_banco,B,1,B_sink_coluna_todas,3 de 3,"tabelas brutas de clientes no destino com a coluna email, ao fim"

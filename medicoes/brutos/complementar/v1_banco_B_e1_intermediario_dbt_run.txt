@@ -1,0 +1,32 @@
+14:36:32  Running with dbt=1.11.17
+14:36:32  Registered adapter: postgres=1.11.0
+14:36:32  Found 6 models, 12 sources, 478 macros
+14:36:32  
+14:36:32  Concurrency: 4 threads (target='dw')
+14:36:32  
+14:36:32  1 of 6 START sql view model analytics.stg_clientes ............................. [RUN]
+14:36:32  2 of 6 START sql view model analytics.stg_itens_pedido ......................... [RUN]
+14:36:32  3 of 6 START sql view model analytics.stg_pedidos .............................. [RUN]
+14:36:32  4 of 6 START sql view model analytics.stg_produtos ............................. [RUN]
+14:36:32  1 of 6 ERROR creating sql view model analytics.stg_clientes .................... [ERROR in 0.08s]
+14:36:32  5 of 6 SKIP relation analytics.dim_clientes .................................... [SKIP]
+14:36:32  4 of 6 OK created sql view model analytics.stg_produtos ........................ [CREATE VIEW in 0.17s]
+14:36:32  3 of 6 OK created sql view model analytics.stg_pedidos ......................... [CREATE VIEW in 0.17s]
+14:36:32  2 of 6 OK created sql view model analytics.stg_itens_pedido .................... [CREATE VIEW in 0.17s]
+14:36:32  6 of 6 START sql view model analytics.fct_pedidos .............................. [RUN]
+14:36:33  6 of 6 OK created sql view model analytics.fct_pedidos ......................... [CREATE VIEW in 0.09s]
+14:36:33  
+14:36:33  Finished running 6 view models in 0 hours 0 minutes and 0.37 seconds (0.37s).
+14:36:33  
+14:36:33  Completed with 1 error, 0 partial successes, and 0 warnings:
+14:36:33  
+14:36:33  Failure in model stg_clientes (models/staging/stg_clientes.sql)
+14:36:33    Database Error in model stg_clientes (models/staging/stg_clientes.sql)
+  each UNION query must have the same number of columns
+  LINE 16:     select 'tenant_b'::text as tenant_id, * from "dw"."publi...
+                      ^
+  compiled code at target/run/v1_banco/models/staging/stg_clientes.sql
+14:36:33  
+14:36:33    compiled code at target/compiled/v1_banco/models/staging/stg_clientes.sql
+14:36:33  
+14:36:33  Done. PASS=4 WARN=0 ERROR=1 SKIP=1 NO-OP=0 TOTAL=6
