@@ -57,28 +57,31 @@ Uma consulta de verificação (`comum/verificar.py`) compara o conteúdo desses 
 ### M1. Conectores e recursos de captura
 | Código | Definição | Como medir |
 |---|---|---|
-| M1a | Número de conectores ativos no Kafka Connect (origem + destino) | `GET /connectors` da API REST do Connect |
+| M1a | Número de conectores ativos no Kafka Connect (origem + destino) | `GET /connectors` da API REST do Connect (conector e tarefas em `RUNNING`) |
 | M1b | Número de slots de replicação na origem | `SELECT count(*) FROM pg_replication_slots` |
-| M1c | Número de tópicos de dados no Kafka (excluindo tópicos internos) | listagem de tópicos |
+| M1c | Número de tópicos de dados no Kafka (excluindo tópicos internos) | listagem de tópicos, excluindo os nomes iniciados por `_` ou `__` |
+
+M1 e M2 são coletadas por `comum/medir.py`, que grava `medicoes/resultados.csv` e as saídas brutas em `medicoes/brutos/`.
 
 ### M2. Complexidade do pipeline
 | Código | Definição | Como medir |
 |---|---|---|
 | M2a | Número de arquivos de configuração de conectores | contagem em `variantes/<v>/conectores/` |
 | M2b | Número de modelos dbt | contagem de `.sql` em `variantes/<v>/dbt/models/` |
-| M2c | Número de fontes (`sources`) declaradas no dbt | contagem nas definições `.yml` |
+| M2c | Número de fontes (`sources`) declaradas no dbt | contagem nas definições `.yml`: número de tabelas declaradas como source (a observação registra o número de blocos de source) |
 | M2d | Número de macros dbt próprias | contagem de `.sql` em `variantes/<v>/dbt/macros/` |
-| M2e | Linhas de configuração e código | linhas não vazias e sem comentário em `variantes/<v>/` (conectores, dbt e scripts de operação), contadas por script versionado |
+| M2e | Linhas de configuração e código do pipeline | linhas não vazias e sem comentário em `variantes/<v>/conectores/` e `variantes/<v>/dbt/` (sem `README.md` e sem artefatos gerados pelo dbt), contadas por `comum/medir.py` |
+| M2e_origem | Métrica auxiliar, fora de M2e: linhas dos artefatos da origem | mesma contagem em `variantes/<v>/origem/` (DDL e criação de tenants, que simulam a aplicação) |
 
 ### M3. Esforço para incorporar um novo tenant
 Medido no procedimento da seção 5.3 (incorporar o tenant `tenant_d`).
 
 | Código | Definição | Como medir |
 |---|---|---|
-| M3a | Passos manuais | número de ações do operador registradas no diário (seção 6) |
-| M3b | Arquivos alterados | `git diff --stat` entre os commits de antes e depois da incorporação, restrito a `variantes/<v>/` |
+| M3a | Passos manuais de engenharia de dados | número de ações do operador registradas no diário (seção 6), sem o passo 0 (criação do tenant na origem, que é ato da aplicação) |
+| M3b | Arquivos alterados | `git diff --stat` entre os commits de antes e depois da incorporação, restrito a `variantes/<v>/conectores/` e `variantes/<v>/dbt/` (sem `README.md`) |
 | M3c | Exigiu reiniciar ou recriar algum conector, slot ou publicação? | sim/não, com descrição |
-| M3d | Tempo de propagação | segundos entre o fim do último passo manual e o momento em que os dados do `tenant_d` aparecem corretos nos modelos finais, medido por script de verificação periódica (a cada 5 s) |
+| M3d | Tempo de propagação | segundos entre o fim da criação do `tenant_d` na origem (fim do `criar_tenant.sh`, passo 0) e o momento em que `comum/verificar.py --aguardar` passa com os 4 tenants (verificação a cada 5 s). Esperas por pré-requisitos (por exemplo, as tabelas do `tenant_d` aparecerem no destino antes do `dbt run`) ficam dentro do intervalo; o operador age assim que observa o pré-requisito |
 
 ## 5. Procedimento
 
@@ -99,10 +102,10 @@ Para cada variante:
 ### 5.3 Incorporação de um novo tenant
 Partindo do estado da seção 5.2, já correto:
 1. fazer um commit marcando o estado antes da incorporação;
-2. criar o `tenant_d` na origem, da forma natural na estratégia (novo banco, novo schema ou novas linhas com `tenant_id`), e carregar seus dados;
-3. executar os passos necessários para os dados do `tenant_d` chegarem aos modelos finais, registrando cada um no diário;
-4. rodar a verificação de correção, agora com 4 tenants;
-5. fazer um commit marcando o estado depois da incorporação;
+2. **passo 0:** criar o `tenant_d` na origem, da forma natural na estratégia (novo banco, novo schema ou novas linhas com `tenant_id`), e carregar seus dados com o `criar_tenant.sh` da variante; anotar o timestamp UTC do fim. É ato da aplicação: entra no diário com tipo `origem` e não conta em M3a;
+3. iniciar imediatamente `comum/verificar.py` com os 4 tenants em modo `--aguardar`, com `--inicio` igual ao timestamp do passo 0, salvando a saída em `medicoes/brutos/` (M3d);
+4. executar os passos de engenharia de dados necessários para os dados do `tenant_d` chegarem aos modelos finais (os mínimos e idiomáticos da variante; se os dados aparecerem sozinhos, nenhum), registrando cada um no diário. O operador age assim que observa cada pré-requisito;
+5. quando a verificação passar, fazer um commit marcando o estado depois da incorporação;
 6. medir M1, M2 (de novo) e M3 e gravar.
 
 ### 5.4 Repetições
@@ -115,7 +118,8 @@ Cada ação do operador durante a incorporação vira uma linha em `medicoes/dia
 
 `variante, execucao, passo, timestamp_utc, tipo, descricao`
 
-- `tipo`: `comando` (um comando executado), `edicao` (alteração de um arquivo), `chamada_api` (registro ou alteração de conector) ou `reinicio` (reinício de um componente).
+- `tipo`: `origem` (passo 0: criação do tenant na origem, ato da aplicação que não conta em M3a), `comando` (um comando executado), `edicao` (alteração ou criação de um arquivo), `chamada_api` (registro ou alteração de conector) ou `reinicio` (reinício de um componente).
+- As linhas são registradas com `comum/diario.py`, que numera os passos (0 para `origem`) e grava o timestamp UTC.
 - Um passo é **uma** ação atômica. Uma edição que altera vários trechos do mesmo arquivo conta como um passo; alterar dois arquivos conta como dois.
 - Verificações que apenas leem o estado (consultar, listar) **não** contam como passo.
 
@@ -152,12 +156,12 @@ Um commit ao fim de cada medição. Nenhuma credencial é versionada.
 
 | Item | Valor |
 |---|---|
-| Postgres (origem e destino) | |
-| Kafka | |
-| Kafka Connect / Debezium | |
-| Debezium JDBC Sink | |
-| dbt-core / dbt-postgres | |
-| Commit do pipeline do Brasil Participativo | |
+| Postgres (origem e destino) | `postgres:17.12` (`sha256:0d938e975177bef9f1f61f3f9dbcf2e0aa0a139568f66d3415ed8892eb97f6ac`) |
+| Kafka | `apache/kafka:4.3.2`, KRaft com nó único (`sha256:852a0d49fc4e656b022e7f23785411802c9a088c78a7c5e39f33969de9c227a7`) |
+| Kafka Connect / Debezium | `quay.io/debezium/connect:3.6.3.Final` (`sha256:99aa63f43fa828bc991687dd9d3895cd83cb4213e3848ed0238c5fd83ba95e1c`): runtime Kafka Connect 4.3.0, conector Debezium Postgres 3.6.3.Final (`pgoutput`) |
+| Debezium JDBC Sink | 3.6.3.Final, incluído na imagem do Connect acima |
+| dbt-core / dbt-postgres | 1.11.17 / 1.11.0, com Python 3.12.3; todas as dependências fixadas em `comum/requirements.txt` |
+| Commit do pipeline do Brasil Participativo | a preencher na Etapa 8 |
 
 ## 11. Desvios do protocolo
 

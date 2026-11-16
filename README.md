@@ -59,3 +59,18 @@ set -a; . ./.env; set +a
 # M3d: repete a cada 5 s até bater
 .venv/bin/python comum/verificar.py tenant_a tenant_b tenant_c tenant_d --aguardar --timeout 900
 ```
+
+## Medição (a partir da tag `v0-medicao`)
+
+```bash
+# M1 e M2 de uma variante (roda a verificação antes e grava medicoes/resultados.csv e medicoes/brutos/)
+.venv/bin/python comum/medir.py v3_compartilhado inicial
+
+# Diário da incorporação (seção 6): passo 0 = criação do tenant na origem
+.venv/bin/python comum/diario.py v3_compartilhado origem "criar_tenant.sh tenant_d" --timestamp <fim do passo 0>
+.venv/bin/python comum/diario.py v2_esquema edicao "sources.yml: source tenant_d"
+
+# M1, M2 e M3 depois da incorporação
+.venv/bin/python comum/medir.py v2_esquema pos_tenant_d --antes <commit> --depois <commit> \
+    --m3c nao --m3c-descricao "..." --m3d-arquivo medicoes/brutos/v2_esquema_e1_m3d_verificar.txt
+```
