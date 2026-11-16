@@ -65,3 +65,4 @@ v1_banco,1,pos_tenant_d,M3a,5,"1 chamada_api, 1 comando, 3 edicao"
 v1_banco,1,pos_tenant_d,M3b,3,dd9ab3c..dd5dc00: +28 -1; origem_tenant_d.json dbt_project.yml sources.yml
 v1_banco,1,pos_tenant_d,M3c,nao,"nenhum conector, slot ou publicação existente foi reiniciado ou recriado, mas a incorporação exigiu criar e registrar um conector novo (origem-tenant_d), que criou um slot novo (debezium_tenant_d) e uma publicação nova (dbz_publication no banco tenant_d); o sink passou a consumir os novos tópicos sozinho, na atualização de metadados da assinatura por regex (~4,5 min depois)"
 v1_banco,1,pos_tenant_d,M3d,280.3,2026-11-16T12:59:05Z -> 2026-11-16T13:03:45Z; 57 tentativas a cada 5 s
+v3_compartilhado,2,pos_tenant_d,M3d,5.7,2026-11-16T13:40:41Z -> 2026-11-16T13:40:46Z; 2 tentativas a cada 5 s
