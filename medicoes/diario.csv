@@ -1,1 +1,2 @@
 variante,execucao,passo,timestamp_utc,tipo,descricao
+v3_compartilhado,1,0,2026-11-16T12:51:44Z,origem,variantes/v3_compartilhado/origem/criar_tenant.sh tenant_d (novas linhas com tenant_id nas tabelas do banco app)
