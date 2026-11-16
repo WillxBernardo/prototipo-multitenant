@@ -1,0 +1,10 @@
+{
+  "medido_em_utc": "2026-11-16T12:58:45Z",
+  "commit": "cc71bce",
+  "variante_com_alteracoes_nao_commitadas": false,
+  "tenants_verificados": [
+    "tenant_a",
+    "tenant_b",
+    "tenant_c"
+  ]
+}

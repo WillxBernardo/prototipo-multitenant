@@ -1,0 +1,16 @@
+__consumer_offsets
+_connect_configs
+_connect_offsets
+_connect_statuses
+tenant_a.public.clientes
+tenant_a.public.itens_pedido
+tenant_a.public.pedidos
+tenant_a.public.produtos
+tenant_b.public.clientes
+tenant_b.public.itens_pedido
+tenant_b.public.pedidos
+tenant_b.public.produtos
+tenant_c.public.clientes
+tenant_c.public.itens_pedido
+tenant_c.public.pedidos
+tenant_c.public.produtos

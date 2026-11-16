@@ -1,0 +1,17 @@
+metrica,arquivo,linhas_uteis
+M2e,variantes/v1_banco/conectores/destino.json,16
+M2e,variantes/v1_banco/conectores/origem_tenant_a.json,15
+M2e,variantes/v1_banco/conectores/origem_tenant_b.json,15
+M2e,variantes/v1_banco/conectores/origem_tenant_c.json,15
+M2e,variantes/v1_banco/dbt/dbt_project.yml,10
+M2e,variantes/v1_banco/dbt/macros/unir_tenants.sql,8
+M2e,variantes/v1_banco/dbt/models/marts/dim_clientes.sql,7
+M2e,variantes/v1_banco/dbt/models/marts/fct_pedidos.sql,19
+M2e,variantes/v1_banco/dbt/models/sources.yml,34
+M2e,variantes/v1_banco/dbt/models/staging/stg_clientes.sql,7
+M2e,variantes/v1_banco/dbt/models/staging/stg_itens_pedido.sql,8
+M2e,variantes/v1_banco/dbt/models/staging/stg_pedidos.sql,7
+M2e,variantes/v1_banco/dbt/models/staging/stg_produtos.sql,6
+M2e,variantes/v1_banco/dbt/profiles.yml,12
+M2e_origem,variantes/v1_banco/origem/criar_tenant.sh,10
+M2e_origem,variantes/v1_banco/origem/esquema.sql,24

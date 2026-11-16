@@ -43,3 +43,12 @@ v2_esquema,1,pos_tenant_d,M3a,3,"1 comando, 2 edicao"
 v2_esquema,1,pos_tenant_d,M3b,2,f5460c9..6d39926: +13 -1; dbt_project.yml sources.yml
 v2_esquema,1,pos_tenant_d,M3c,nao,"nenhum conector, slot ou publicação foi reiniciado ou recriado; a publicação FOR ALL TABLES e o schema.include.list tenant_.* capturaram o novo schema sem intervenção (tópicos app.tenant_d.* criados em ~1 s); o sink passou a consumir os novos tópicos sozinho, na atualização de metadados da assinatura por regex (~4,5 min depois)"
 v2_esquema,1,pos_tenant_d,M3d,280.8,2026-11-16T12:53:04Z -> 2026-11-16T12:57:44Z; 57 tentativas a cada 5 s
+v1_banco,1,inicial,M1a,4,4 registrados; ativos: destino origem-tenant_a origem-tenant_b origem-tenant_c
+v1_banco,1,inicial,M1b,3,debezium_tenant_a debezium_tenant_b debezium_tenant_c
+v1_banco,1,inicial,M1c,12,4 internos excluídos
+v1_banco,1,inicial,M2a,4,destino.json origem_tenant_a.json origem_tenant_b.json origem_tenant_c.json
+v1_banco,1,inicial,M2b,6,dim_clientes fct_pedidos stg_clientes stg_itens_pedido stg_pedidos stg_produtos
+v1_banco,1,inicial,M2c,12,3 blocos de source
+v1_banco,1,inicial,M2d,1,unir_tenants
+v1_banco,1,inicial,M2e,179,conectores/ e dbt/
+v1_banco,1,inicial,M2e_origem,34,"origem/ (auxiliar, fora de M2e)"

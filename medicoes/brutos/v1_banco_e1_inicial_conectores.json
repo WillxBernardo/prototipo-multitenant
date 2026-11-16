@@ -1,0 +1,171 @@
+{
+  "origem-tenant_c": {
+    "status": {
+      "name": "origem-tenant_c",
+      "connector": {
+        "state": "RUNNING",
+        "worker_id": "172.19.0.5:8083",
+        "version": "3.6.3.Final"
+      },
+      "tasks": [
+        {
+          "id": 0,
+          "state": "RUNNING",
+          "worker_id": "172.19.0.5:8083",
+          "version": "3.6.3.Final"
+        }
+      ],
+      "type": "source"
+    },
+    "info": {
+      "name": "origem-tenant_c",
+      "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "database.user": "postgres",
+        "database.dbname": "tenant_c",
+        "topic.prefix": "tenant_c",
+        "slot.name": "debezium_tenant_c",
+        "database.hostname": "postgres-origem",
+        "database.password": "${env:PG_ORIGEM_SENHA}",
+        "name": "origem-tenant_c",
+        "schema.include.list": "public",
+        "plugin.name": "pgoutput",
+        "database.port": "5432"
+      },
+      "tasks": [
+        {
+          "connector": "origem-tenant_c",
+          "task": 0
+        }
+      ],
+      "type": "source"
+    }
+  },
+  "origem-tenant_a": {
+    "status": {
+      "name": "origem-tenant_a",
+      "connector": {
+        "state": "RUNNING",
+        "worker_id": "172.19.0.5:8083",
+        "version": "3.6.3.Final"
+      },
+      "tasks": [
+        {
+          "id": 0,
+          "state": "RUNNING",
+          "worker_id": "172.19.0.5:8083",
+          "version": "3.6.3.Final"
+        }
+      ],
+      "type": "source"
+    },
+    "info": {
+      "name": "origem-tenant_a",
+      "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "database.user": "postgres",
+        "database.dbname": "tenant_a",
+        "topic.prefix": "tenant_a",
+        "slot.name": "debezium_tenant_a",
+        "database.hostname": "postgres-origem",
+        "database.password": "${env:PG_ORIGEM_SENHA}",
+        "name": "origem-tenant_a",
+        "schema.include.list": "public",
+        "plugin.name": "pgoutput",
+        "database.port": "5432"
+      },
+      "tasks": [
+        {
+          "connector": "origem-tenant_a",
+          "task": 0
+        }
+      ],
+      "type": "source"
+    }
+  },
+  "origem-tenant_b": {
+    "status": {
+      "name": "origem-tenant_b",
+      "connector": {
+        "state": "RUNNING",
+        "worker_id": "172.19.0.5:8083",
+        "version": "3.6.3.Final"
+      },
+      "tasks": [
+        {
+          "id": 0,
+          "state": "RUNNING",
+          "worker_id": "172.19.0.5:8083",
+          "version": "3.6.3.Final"
+        }
+      ],
+      "type": "source"
+    },
+    "info": {
+      "name": "origem-tenant_b",
+      "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "database.user": "postgres",
+        "database.dbname": "tenant_b",
+        "topic.prefix": "tenant_b",
+        "slot.name": "debezium_tenant_b",
+        "database.hostname": "postgres-origem",
+        "database.password": "${env:PG_ORIGEM_SENHA}",
+        "name": "origem-tenant_b",
+        "schema.include.list": "public",
+        "plugin.name": "pgoutput",
+        "database.port": "5432"
+      },
+      "tasks": [
+        {
+          "connector": "origem-tenant_b",
+          "task": 0
+        }
+      ],
+      "type": "source"
+    }
+  },
+  "destino": {
+    "status": {
+      "name": "destino",
+      "connector": {
+        "state": "RUNNING",
+        "worker_id": "172.19.0.5:8083",
+        "version": "3.6.3.Final"
+      },
+      "tasks": [
+        {
+          "id": 0,
+          "state": "RUNNING",
+          "worker_id": "172.19.0.5:8083",
+          "version": "3.6.3.Final"
+        }
+      ],
+      "type": "sink"
+    },
+    "info": {
+      "name": "destino",
+      "config": {
+        "connector.class": "io.debezium.connector.jdbc.JdbcSinkConnector",
+        "delete.enabled": "true",
+        "connection.password": "${env:PG_DESTINO_SENHA}",
+        "primary.key.mode": "record_key",
+        "schema.evolution": "basic",
+        "tasks.max": "1",
+        "connection.username": "postgres",
+        "name": "destino",
+        "connection.url": "jdbc:postgresql://postgres-destino:5432/dw",
+        "insert.mode": "upsert",
+        "topics.regex": "tenant_.*\\.public\\..*",
+        "use.time.zone": "UTC"
+      },
+      "tasks": [
+        {
+          "connector": "destino",
+          "task": 0
+        }
+      ],
+      "type": "sink"
+    }
+  }
+}
