@@ -1,0 +1,4 @@
+git diff --stat f5460c9 -- variantes/v2_esquema/conectores variantes/v2_esquema/dbt :(exclude,glob)**/README.md
+ variantes/v2_esquema/dbt/dbt_project.yml    |  2 +-
+ variantes/v2_esquema/dbt/models/sources.yml | 12 ++++++++++++
+ 2 files changed, 13 insertions(+), 1 deletion(-)

@@ -16,3 +16,7 @@ v2_esquema,2,0,2026-11-16T13:43:12Z,origem,"variantes/v2_esquema/origem/criar_te
 v2_esquema,2,1,2026-11-16T13:43:14Z,edicao,variantes/v2_esquema/dbt/models/sources.yml: nova source tenant_d com as 4 tabelas app_tenant_d_*
 v2_esquema,2,2,2026-11-16T13:43:14Z,edicao,variantes/v2_esquema/dbt/dbt_project.yml: tenant_d acrescentado em vars.tenants
 v2_esquema,2,3,2026-11-16T13:48:08Z,comando,"dbt run em variantes/v2_esquema/dbt, assim que as 4 tabelas app_tenant_d_* apareceram no destino"
+v2_esquema,3,0,2026-11-16T13:49:15Z,origem,"variantes/v2_esquema/origem/criar_tenant.sh tenant_d (novo schema tenant_d no banco app, com tabelas e dados)"
+v2_esquema,3,1,2026-11-16T13:49:16Z,edicao,variantes/v2_esquema/dbt/models/sources.yml: nova source tenant_d com as 4 tabelas app_tenant_d_*
+v2_esquema,3,2,2026-11-16T13:49:17Z,edicao,variantes/v2_esquema/dbt/dbt_project.yml: tenant_d acrescentado em vars.tenants
+v2_esquema,3,3,2026-11-16T13:54:10Z,comando,"dbt run em variantes/v2_esquema/dbt, assim que as 4 tabelas app_tenant_d_* apareceram no destino"
